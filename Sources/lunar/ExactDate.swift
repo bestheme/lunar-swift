@@ -41,28 +41,6 @@ struct ExactDate {
         let startDate = fromYmd(year: ay, month: am, day: ad)
         let endDate = fromYmd(year: by, month: bm, day: bd)
         let diff:DateComponents = calendar.dateComponents([.day], from: startDate, to: endDate)
-        
-//        var n: Int
-//        var days: Int
-//        //        var i: Int
-//        if (ay == by) {
-//            n = SolarUtil.getDaysInYear(year: by, month: bm, day: bd) -
-//            SolarUtil.getDaysInYear(year: ay, month: am, day: ad)
-//        } else if (ay > by) {
-//            days = SolarUtil.getDaysOfYear(year: by) - SolarUtil.getDaysInYear(year: by, month: bm, day: bd);
-//            for i in by+1...ay {
-//                days += SolarUtil.getDaysOfYear(year: i)
-//            }
-//            days += SolarUtil.getDaysInYear(year: ay, month: am, day: ad)
-//            n = -days
-//        } else {
-//            days = SolarUtil.getDaysOfYear(year: ay) - SolarUtil.getDaysInYear(year: ay, month: am, day: ad);
-//            for i in ay+1...by {
-//                days += SolarUtil.getDaysOfYear(year: i)
-//            }
-//            days += SolarUtil.getDaysInYear(year: by, month: bm, day: bd)
-//            n = days
-//        }
         return diff.day!
     }
     
