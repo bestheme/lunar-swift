@@ -13,18 +13,19 @@ import Foundation
 /// @author 6tail
 struct ExactDate {
     
-    static func fromYmd(year: Int, month: Int, day: Int) -> DateComponents {
+    static func fromYmd(year: Int, month: Int, day: Int) -> Date {
         return fromYmdHms(year: year, month: month, day: day, hour: 0, minute: 0, second: 0);
     }
     
-    static func fromYmdHms(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) -> DateComponents {
-        let dc = DateComponents(year: year, month: month, day: day, hour: hour, minute: minute, second: second)
-        return dc
+    static func fromYmdHms(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) -> Date {
+        let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
+        return dc.date!
     }
     
-    static func fromDate(date: DateComponents) -> DateComponents {
+    static func fromDate(date: Date) -> Date {
+        let dc = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         return fromYmdHms(year:
-                            date.year!, month: date.month!, day: date.day!, hour: date.hour!, minute: date.minute!, second: date.second!)
+                            dc.year!, month: dc.month!, day: dc.day!, hour: dc.hour!, minute: dc.minute!, second: dc.second!)
     }
     
     /// 获取两个日期之间相差的天数（如果日期a比日期b小，天数为正，如果日期a比日期b大，天数为负）

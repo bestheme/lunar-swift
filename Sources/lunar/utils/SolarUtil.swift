@@ -181,7 +181,7 @@ struct SolarUtil {
     /// @return 第几天
     static func getDaysInYear(year: Int, month: Int, day: Int) -> Int {
         var days: Int = 0;
-        for i in 1...month {
+        for i in 1..<month {
             days += getDaysOfMonth(year: year, month: i)
         }
         days += day;
@@ -199,10 +199,10 @@ struct SolarUtil {
     /// @return 周数
     static func getWeeksOfMonth(year: Int, month: Int, start: Int) -> Int {
         let days: Int = getDaysOfMonth(year: year, month: month)
-        var week: Int = ExactDate.fromYmd(year: year, month: month, day: 1).weekday!
-        if (week == 7) {
+        var week: Int = Calendar(identifier: .gregorian).component(.weekday, from: ExactDate.fromYmd(year: year, month: month, day: Int(1))) - 1
+        if (week == -1) {
             week = 0;
         }
-        return Int(ceil(Double((days + week - start) * 1 / WEEK.count)))
+        return Int(ceil(Double(days + week - start) * 1.0 / Double(WEEK.count)))
     }
 }
