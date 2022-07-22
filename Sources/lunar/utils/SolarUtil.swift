@@ -160,7 +160,7 @@ struct SolarUtil {
         var d: Int  = DAYS_OF_MONTH[m];
         //公历闰年2月多一天
         if (m == 1 && isLeapYear(year: year)) {
-            d+=1
+            d += 1
         }
         return d
     }

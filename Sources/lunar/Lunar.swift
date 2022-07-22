@@ -190,21 +190,21 @@ struct Lunar {
         ///阳历和阴历年份相同代表正月初一及以后
         if (year == solarYear) {
             //立春日期判断
-            if (!(solarYmd == liChunYmd)) {
+            if (solarYmd.compare(liChunYmd).rawValue < 0) {
                 g -= 1
                 z -= 1
             }
             ///立春交接时刻判断
-            if (!(solarYmdHms == liChunYmdHms)) {
+            if (solarYmdHms.compare(liChunYmdHms).rawValue < 0) {
                 gExact -= 1
                 zExact -= 1
             }
         } else if (year < solarYear) {
-            if (solarYmd == liChunYmd) {
+            if (solarYmd.compare(liChunYmd).rawValue >= 0) {
                 g += 1
                 z += 1
             }
-            if (solarYmdHms == liChunYmdHms) {
+            if (solarYmdHms.compare(liChunYmdHms).rawValue >= 0 ) {
                 gExact += 1
                 zExact += 1
             }
@@ -237,8 +237,7 @@ struct Lunar {
         }
         
         //干偏移值（以立春当天起算）
-        var offset: Int =
-        (((yearGanIndexByLiChun + (index < 0 ? 1 : 0)) % 5 + 1) * 2) % 10
+        var offset: Int = (((yearGanIndexByLiChun + (index < 0 ? 1 : 0)) % 5 + 1) * 2) % 10
         self.monthGanIndex = ((index < 0 ? index + 10 : index) + offset) % 10
         self.monthZhiIndex =
         ((index < 0 ? index + 12 : index) + LunarUtil.BASE_MONTH_ZHI_INDEX) %
@@ -266,7 +265,7 @@ struct Lunar {
                 
     mutating func computeDay() {
         let noon: Solar  = Solar(fromYmdHms: solar!.year, month: solar!.month, day: solar!.day, hour: 12, minute: 0, second: 0)
-        let offset: Double = noon.julianDay - 11
+        let offset: Double = floor(noon.julianDay) - 11
         dayGanIndex = Int(offset.truncatingRemainder(dividingBy: 10))
         dayZhiIndex = Int(offset.truncatingRemainder(dividingBy: 12))
         
@@ -279,7 +278,7 @@ struct Lunar {
         
         // 八字流派1，晚子时（夜子/子夜）日柱算明天
         //              var hm: String = "\(hour < 10 ? "0" : "")\(hour.toString()):\(_minute < 10 ? "0" : "")\(minute.toString())"
-        let hm: String = (DateComponents(calendar: Calendar(identifier: .gregorian), hour: hour, minute: minute).date?.formatted(.dateTime.hour(.twoDigits(amPM: .narrow)).month(.twoDigits)))!
+        let hm: String = (DateComponents(calendar: Calendar(identifier: .gregorian), hour: hour, minute: minute).date?.formatted(.dateTime.hour(.twoDigits(amPM: .narrow)).minute(.twoDigits)))!
         if (hm.compare("23:00").rawValue >= 0 && hm.compare("23:59").rawValue <= 0) {
             dayGanExact += 1
             if (dayGanExact >= 10) {
@@ -297,7 +296,7 @@ struct Lunar {
                 
     mutating func computeTime() {
         //                String hm = (_hour < 10 ? "0" : "") + _hour.toString() + ":" + (_minute < 10 ? "0" : "") + _minute.toString()
-        let hm: String = DateComponents(calendar: Calendar(identifier: .gregorian), hour: hour, minute: minute).date!.formatted(.dateTime.hour(.twoDigits(amPM: .narrow)).month(.twoDigits))
+        let hm: String = DateComponents(calendar: Calendar(identifier: .gregorian), hour: hour, minute: minute).date!.formatted(.dateTime.hour(.twoDigits(amPM: .narrow)).minute(.twoDigits))
         timeZhiIndex = LunarUtil.getTimeZhiIndex(hm: hm)
         timeGanIndex = (dayGanIndexExact % 5 * 2 + timeZhiIndex) % 10
     }
@@ -1095,141 +1094,141 @@ struct Lunar {
         return LunarUtil.YUE_XIANG[day]
     }
                 
-//    private func getYearNineStar(yearInGanZhi: String) -> NineStar {
-//        var index: Int = LunarUtil.getJiaZiIndex(ganZhi: yearInGanZhi) + 1
-//        var yearOffset: Int = 0
-//        if (index != LunarUtil.getJiaZiIndex(ganZhi: self.getYearInGanZhi()) + 1) {
-//            yearOffset = -1
-//        }
-//        var yuan: Int = ((year + yearOffset + 2696) / 60) % 3
-//        var offset: Int = (62 + yuan * 3 - index) % 9
-//        if (0 == offset) {
-//            offset = 9
-//        }
-//        return NineStar.fromIndex(offset - 1)
-//    }
-            
-//    func getYearNineStar(geren: Int = 2) -> NineStar {
-//        var yearInGanZhi: String
-//        switch (geren) {
-//        case 1:
-//            yearInGanZhi = self.getYearInGanZhi()
-//            break
-//        case 3:
-//            yearInGanZhi = self.getYearInGanZhiExact()
-//            break
-//        default:
-//            yearInGanZhi = self.getYearInGanZhiByLiChun()
-//        }
-//        return getYearNineStar(yearInGanZhi)
-//    }
-//
-//    private func getMonthNineStar(yearZhiIndex: Int, monthZhiIndex: Int) -> NineStar {
-//        var index: Int = yearZhiIndex % 3
-//        var n: Int = 27 - (index * 3)
-//        if (monthZhiIndex < LunarUtil.BASE_MONTH_ZHI_INDEX) {
-//            n -= 3
-//        }
-//        var offset: Int = (n - monthZhiIndex) % 9
-//        return NineStar.fromIndex(offset)
-//    }
+    private func getYearNineStar(yearInGanZhi: String) -> NineStar {
+        let index: Int = LunarUtil.getJiaZiIndex(ganZhi: yearInGanZhi) + 1
+        var yearOffset: Int = 0
+        if (index != LunarUtil.getJiaZiIndex(ganZhi: self.getYearInGanZhi()) + 1) {
+            yearOffset = -1
+        }
+        let yuan: Int = ((year + yearOffset + 2696) / 60) % 3
+        var offset: Int = (62 + yuan * 3 - index) % 9
+        if (0 == offset) {
+            offset = 9
+        }
+        return NineStar(index: offset - 1)
+    }
+
+    func getYearNineStar(geren: Int = 2) -> NineStar {
+        var yearInGanZhi: String
+        switch (geren) {
+        case 1:
+            yearInGanZhi = self.getYearInGanZhi()
+            break
+        case 3:
+            yearInGanZhi = self.getYearInGanZhiExact()
+            break
+        default:
+            yearInGanZhi = self.getYearInGanZhiByLiChun()
+        }
+        return getYearNineStar(yearInGanZhi: yearInGanZhi)
+    }
+
+    private func getMonthNineStar(yearZhiIndex: Int, monthZhiIndex: Int) -> NineStar {
+        let index: Int = yearZhiIndex % 3
+        var n: Int = 27 - (index * 3)
+        if (monthZhiIndex < LunarUtil.BASE_MONTH_ZHI_INDEX) {
+            n -= 3
+        }
+        let offset: Int = (n - monthZhiIndex) % 9
+        return NineStar(index: offset)
+    }
                 
-//    func getMonthNineStar(geren: <#T##Int#> = 1) -> NineStart {
-//        var yearZhiIndexSelector: Int
-//        var monthZhiIndexSelector: Int
-//        switch (geren) {
-//        case 1:
-//            yearZhiIndexSelector = yearZhiIndex
-//            monthZhiIndexSelector = monthZhiIndex
-//            break
-//        case 3:
-//            yearZhiIndexSelector = yearZhiIndexExact
-//            monthZhiIndexSelector = monthZhiIndexExact
-//            break
-//        default:
-//            yearZhiIndexSelector = yearZhiIndexByLiChun
-//            monthZhiIndexSelector = monthZhiIndex
-//        }
-//        return getMonthNineStar(yearZhiIndex: yearZhiIndex, monthZhiIndex: monthZhiIndex)
-//    }
+    func getMonthNineStar(geren: Int = 1) -> NineStar {
+        var yearZhiIndexSelector: Int
+        var monthZhiIndexSelector: Int
+        switch (geren) {
+        case 1:
+            yearZhiIndexSelector = yearZhiIndex
+            monthZhiIndexSelector = monthZhiIndex
+            break
+        case 3:
+            yearZhiIndexSelector = yearZhiIndexExact
+            monthZhiIndexSelector = monthZhiIndexExact
+            break
+        default:
+            yearZhiIndexSelector = yearZhiIndexByLiChun
+            monthZhiIndexSelector = monthZhiIndex
+        }
+        return getMonthNineStar(yearZhiIndex: yearZhiIndexSelector, monthZhiIndex: monthZhiIndexSelector)
+    }
                 
-//    func getDayNineStar() -> NineStar {
-//        String solarYmd = _solar!.toYmd()
-//        Solar dongZhi = _jieQi["冬至"]!
-//        Solar dongZhi2 = _jieQi["DONG_ZHI"]!
-//        Solar xiaZhi = _jieQi["夏至"]!
-//        int dongZhiIndex =
-//        LunarUtil.getJiaZiIndex(dongZhi.getLunar().getDayInGanZhi())
-//        int dongZhiIndex2 =
-//        LunarUtil.getJiaZiIndex(dongZhi2.getLunar().getDayInGanZhi())
-//        int xiaZhiIndex =
-//        LunarUtil.getJiaZiIndex(xiaZhi.getLunar().getDayInGanZhi())
-//        Solar solarShunBai
-//        Solar solarShunBai2
-//        Solar solarNiZi
-//        if (dongZhiIndex > 29) {
-//            solarShunBai = dongZhi.next(60 - dongZhiIndex)
-//        } else {
-//            solarShunBai = dongZhi.next(-dongZhiIndex)
-//        }
-//        String solarShunBaiYmd = solarShunBai.toYmd()
-//        if (dongZhiIndex2 > 29) {
-//            solarShunBai2 = dongZhi2.next(60 - dongZhiIndex2)
-//        } else {
-//            solarShunBai2 = dongZhi2.next(-dongZhiIndex2)
-//        }
-//        String solarShunBaiYmd2 = solarShunBai2.toYmd()
-//        if (xiaZhiIndex > 29) {
-//            solarNiZi = xiaZhi.next(60 - xiaZhiIndex)
-//        } else {
-//            solarNiZi = xiaZhi.next(-xiaZhiIndex)
-//        }
-//        String solarNiZiYmd = solarNiZi.toYmd()
-//        int offset = 0
-//        if (solarYmd.compareTo(solarShunBaiYmd) >= 0 &&
-//            solarYmd.compareTo(solarNiZiYmd) < 0) {
-//            offset = ExactDate.getDaysBetweenDate(
-//                solarShunBai.getCalendar(), this.getSolar().getCalendar()) %
-//            9
-//        } else if (solarYmd.compareTo(solarNiZiYmd) >= 0 &&
-//                   solarYmd.compareTo(solarShunBaiYmd2) < 0) {
-//            offset = 8 -
-//            (ExactDate.getDaysBetweenDate(
-//                solarNiZi.getCalendar(), this.getSolar().getCalendar()) %
-//             9)
-//        } else if (solarYmd.compareTo(solarShunBaiYmd2) >= 0) {
-//            offset = ExactDate.getDaysBetweenDate(
-//                solarShunBai2.getCalendar(), this.getSolar().getCalendar()) %
-//            9
-//        } else if (solarYmd.compareTo(solarShunBaiYmd) < 0) {
-//            offset = (8 +
-//                      ExactDate.getDaysBetweenDate(
-//                        this.getSolar().getCalendar(), solarShunBai.getCalendar())) %
-//            9
-//        }
-//        return NineStar.fromIndex(offset)
-//    }
+    func getDayNineStar() -> NineStar {
+        let solarYmd: String = solar!.toYmd()
+        let dongZhi: Solar = jieQi["冬至"]!
+        let dongZhi2: Solar = jieQi["DONG_ZHI"]!
+        let xiaZhi: Solar = jieQi["夏至"]!
+        let dongZhiIndex: Int =
+        LunarUtil.getJiaZiIndex(ganZhi: dongZhi.getLunar().getDayInGanZhi())
+        let dongZhiIndex2: Int =
+        LunarUtil.getJiaZiIndex(ganZhi: dongZhi2.getLunar().getDayInGanZhi())
+        let xiaZhiIndex: Int =
+        LunarUtil.getJiaZiIndex(ganZhi: xiaZhi.getLunar().getDayInGanZhi())
+        var solarShunBai: Solar
+        var solarShunBai2: Solar
+        var solarNiZi: Solar
+        if (dongZhiIndex > 29) {
+            solarShunBai = dongZhi.next(days: 60 - dongZhiIndex)
+        } else {
+            solarShunBai = dongZhi.next(days: -dongZhiIndex)
+        }
+        let solarShunBaiYmd: String = solarShunBai.toYmd()
+        if (dongZhiIndex2 > 29) {
+            solarShunBai2 = dongZhi2.next(days: 60 - dongZhiIndex2)
+        } else {
+            solarShunBai2 = dongZhi2.next(days: -dongZhiIndex2)
+        }
+        let solarShunBaiYmd2: String = solarShunBai2.toYmd()
+        if (xiaZhiIndex > 29) {
+            solarNiZi = xiaZhi.next(days: 60 - xiaZhiIndex)
+        } else {
+            solarNiZi = xiaZhi.next(days: -xiaZhiIndex)
+        }
+        let solarNiZiYmd: String = solarNiZi.toYmd()
+        var offset: Int = 0
+        if (solarYmd.compare(solarShunBaiYmd).rawValue >= 0 &&
+            solarYmd.compare(solarNiZiYmd).rawValue < 0) {
+            offset = ExactDate.getDaysBetweenDate(
+                startDate: solarShunBai.calendar, endDate: self.getSolar().calendar) %
+            9
+        } else if (solarYmd.compare(solarNiZiYmd).rawValue >= 0 &&
+                   solarYmd.compare(solarShunBaiYmd2).rawValue < 0) {
+            offset = 8 -
+            (ExactDate.getDaysBetweenDate(
+                startDate: solarNiZi.calendar, endDate: self.getSolar().calendar) %
+             9)
+        } else if (solarYmd.compare(solarShunBaiYmd2).rawValue >= 0) {
+            offset = ExactDate.getDaysBetweenDate(
+                startDate: solarShunBai2.calendar, endDate: self.getSolar().calendar) %
+            9
+        } else if (solarYmd.compare(solarShunBaiYmd).rawValue < 0) {
+            offset = (8 +
+                      ExactDate.getDaysBetweenDate(
+                        startDate: self.getSolar().calendar, endDate: solarShunBai.calendar)) %
+            9
+        }
+        return NineStar(index: offset)
+    }
                 
-//    func getTimeNineStar() -> NineStar {
-//        //顺逆
-//        String solarYmd = _solar!.toYmd()
-//        bool asc = false
-//        if (solarYmd.compareTo(_jieQi["冬至"]!.toYmd()) >= 0 &&
-//            solarYmd.compareTo(_jieQi["夏至"]!.toYmd()) < 0) {
-//            asc = true
-//        } else if (solarYmd.compareTo(_jieQi["DONG_ZHI"]!.toYmd()) >= 0) {
-//            asc = true
-//        }
-//        int start = asc ? 6 : 2
-//        String dayZhi = getDayZhi()
-//        if ("子午卯酉".contains(dayZhi)) {
-//            start = asc ? 0 : 8
-//        } else if ("辰戌丑未".contains(dayZhi)) {
-//            start = asc ? 3 : 5
-//        }
-//        int index = asc ? (start + _timeZhiIndex) : (start + 9 - _timeZhiIndex)
-//        return new NineStar(index % 9)
-//    }
+    func getTimeNineStar() -> NineStar {
+        //顺逆
+        let solarYmd: String = solar!.toYmd()
+        var asc: Bool = false
+        if (solarYmd.compare(jieQi["冬至"]!.toYmd()).rawValue >= 0 &&
+            solarYmd.compare(jieQi["夏至"]!.toYmd()).rawValue < 0) {
+            asc = true
+        } else if (solarYmd.compare(jieQi["DONG_ZHI"]!.toYmd()).rawValue >= 0) {
+            asc = true
+        }
+        var start: Int = asc ? 6 : 2
+        let dayZhi: String = getDayZhi()
+        if ("子午卯酉".contains(dayZhi)) {
+            start = asc ? 0 : 8
+        } else if ("辰戌丑未".contains(dayZhi)) {
+            start = asc ? 3 : 5
+        }
+        let index: Int = asc ? (start + timeZhiIndex) : (start + 9 - timeZhiIndex)
+        return NineStar(index: index % 9)
+    }
 
     func getJieQiTable() -> [String: Solar] {
         return jieQi
@@ -1252,30 +1251,32 @@ struct Lunar {
         }
         return getNearJieQi(isGoWith: false, conditions: conditions, wholeDay: wholeDay)!
     }
-//
-//                JieQi getNextQi([bool wholeDay = false]) -> JieQi{
-//                int l = (JIE_QI_IN_USE.length / 2).floor()
-//                List<String> conditions = <String>[]
-//                for (int i = 0 i < l i++) {
-//                    conditions.add(JIE_QI_IN_USE[i * 2 + 1])
-//                }
-//                return _getNearJieQi(true, conditions, wholeDay)!
-//            }
-//
-//                JieQi getPrevQi([bool wholeDay = false]) -> JieQi{
-//                int l = (JIE_QI_IN_USE.length / 2).floor()
-//                List<String> conditions = <String>[]
-//                for (int i = 0 i < l i++) {
-//                    conditions.add(JIE_QI_IN_USE[i * 2 + 1])
-//                }
-//                return _getNearJieQi(false, conditions, wholeDay)!
-//            }
-//
-//                JieQi getNextJieQi([bool wholeDay = false]) =>
-//                _getNearJieQi(true, null, wholeDay)!
-//
-//                JieQi getPrevJieQi([bool wholeDay = false]) =>
-//                _getNearJieQi(false, null, wholeDay)!
+
+    func getNextQi(wholeDay: Bool = false) -> JieQi {
+        let l: Int = Int(floor(Double(Lunar.JIE_QI_IN_USE.count) / 2))
+        var conditions: [String] = []
+        for i in 0..<l {
+            conditions.append(Lunar.JIE_QI_IN_USE[i * 2 + 1])
+        }
+        return getNearJieQi(isGoWith: true, conditions: conditions, wholeDay: wholeDay)!
+    }
+
+    func getPrevQi(wholeDay: Bool = false) -> JieQi {
+        let l: Int = Int(floor(Double(Lunar.JIE_QI_IN_USE.count) / 2))
+        var conditions: [String] = []
+        for i in 0..<l {
+            conditions.append(Lunar.JIE_QI_IN_USE[i * 2 + 1])
+        }
+        return getNearJieQi(isGoWith: false, conditions: conditions, wholeDay: wholeDay)!
+    }
+
+    func getNextJieQi(bool wholeDay: Bool = false) -> JieQi {
+        return getNearJieQi(isGoWith: true, conditions: nil, wholeDay: wholeDay)!
+    }
+
+    func getPrevJieQi(wholeDay: Bool = false) -> JieQi {
+        return getNearJieQi(isGoWith: false, conditions: nil, wholeDay: wholeDay)!
+    }
 
     func getNearJieQi(isGoWith: Bool, conditions: [String]?, wholeDay: Bool) -> JieQi? {
         var name: String?
@@ -1342,44 +1343,48 @@ struct Lunar {
         }
         return ""
     }
-    //
-//                JieQi? getCurrentJieQi() {
-//                for (MapEntry<String, Solar> jq in _jieQi.entries) {
-//                    Solar d = jq.value
-//                    if (d.getYear() == _solar!.getYear() &&
-//                        d.getMonth() == _solar!.getMonth() &&
-//                        d.getDay() == _solar!.getDay()) {
-//                        return new JieQi(_convertJieQi(jq.key), d)
-//                    }
-//                }
-//                return null
-//            }
-//
-//                JieQi? getCurrentJie() {
-//                for (int i = 0, j = JIE_QI_IN_USE.length i < j i += 2) {
-//                    String key = JIE_QI_IN_USE[i]
-//                    Solar? d = _jieQi[key]
-//                    if (d!.getYear() == _solar!.getYear() &&
-//                        d.getMonth() == _solar!.getMonth() &&
-//                        d.getDay() == _solar!.getDay()) {
-//                        return new JieQi(_convertJieQi(key), d)
-//                    }
-//                }
-//                return null
-//            }
-//
-//                JieQi? getCurrentQi() {
-//                for (int i = 1, j = JIE_QI_IN_USE.length i < j i += 2) {
-//                    String key = JIE_QI_IN_USE[i]
-//                    Solar? d = _jieQi[key]
-//                    if (d!.getYear() == _solar!.getYear() &&
-//                        d.getMonth() == _solar!.getMonth() &&
-//                        d.getDay() == _solar!.getDay()) {
-//                        return new JieQi(_convertJieQi(key), d)
-//                    }
-//                }
-//                return null
-//            }
+    
+    var currentJieQi: JieQi? {
+        get {
+            for jq in jieQi {
+                let d: Solar = jq.value
+                if (d.year == solar!.year &&
+                    d.month == solar!.month &&
+                    d.day == solar!.day) {
+                    return lunar.JieQi(name: convertJieQi(SolarTerm: jq.key),solar: d)
+                }
+            }
+            return nil
+        }
+    }
+
+    var currentJie: JieQi? {
+        get {
+            for i in stride(from: 0, to: Lunar.JIE_QI_IN_USE.count, by: 2) {
+                let key: String = Lunar.JIE_QI_IN_USE[i]
+                let d: Solar? = jieQi[key]
+                if (d!.year == solar!.year &&
+                    d!.month == solar!.month &&
+                    d!.day == solar!.day) {
+                    return lunar.JieQi(name: convertJieQi(SolarTerm: key), solar: d!)
+                }
+            }
+            return nil
+        }
+    }
+
+    var currentQi: JieQi? {
+        for i in stride(from: 1, to: Lunar.JIE_QI_IN_USE.count, by: 2) {
+            let key: String = Lunar.JIE_QI_IN_USE[i]
+            let d: Solar? = jieQi[key]
+            if (d!.year == solar!.year &&
+                d!.month == solar!.month &&
+                d!.day == solar!.day) {
+                return lunar.JieQi(name: convertJieQi(SolarTerm: key), solar: d!)
+            }
+        }
+        return nil
+    }
                 
     func toFullString() -> String {
         var s: String = ""
@@ -1617,94 +1622,91 @@ struct Lunar {
         return LunarUtil.getXunKong(ganZhi: getTimeInGanZhi())
     }
 
-//                ShuJiu? getShuJiu() {
-//                DateTime currentCalendar = ExactDate.fromYmd(
-//                    _solar!.getYear(), _solar!.getMonth(), _solar!.getDay())
-//                Solar start = _jieQi["DONG_ZHI"]!
-//                DateTime startCalendar =
-//                ExactDate.fromYmd(start.getYear(), start.getMonth(), start.getDay())
-//
-//                if (currentCalendar.compareTo(startCalendar) < 0) {
-//                    start = _jieQi["冬至"]!
-//                    startCalendar =
-//                    ExactDate.fromYmd(start.getYear(), start.getMonth(), start.getDay())
-//                }
-//
-//                DateTime endCalendar =
-//                ExactDate.fromYmd(start.getYear(), start.getMonth(), start.getDay())
-//                endCalendar = endCalendar.add(Duration(days: 81))
-//
-//                if (currentCalendar.compareTo(startCalendar) < 0 ||
-//                    currentCalendar.compareTo(endCalendar) >= 0) {
-//                    return null
-//                }
-//
-//                int days = ExactDate.getDaysBetweenDate(startCalendar, currentCalendar)
-//                return ShuJiu(LunarUtil.NUMBER[(days / 9).floor() + 1] + "九", days % 9 + 1)
-//            }
-//
-//                Fu? getFu() {
-//                DateTime currentCalendar = ExactDate.fromYmd(
-//                    _solar!.getYear(), _solar!.getMonth(), _solar!.getDay())
-//                Solar xiaZhi = _jieQi["夏至"]!
-//                Solar liQiu = _jieQi["立秋"]!
-//                DateTime startCalendar =
-//                ExactDate.fromYmd(xiaZhi.getYear(), xiaZhi.getMonth(), xiaZhi.getDay())
-//                // 第1个庚日
-//                int add = 6 - xiaZhi.getLunar().getDayGanIndex()
-//                if (add < 0) {
-//                    add += 10
-//                }
-//                // 第3个庚日，即初伏第1天
-//                add += 20
-//                startCalendar = startCalendar.add(Duration(days: add))
-//
-//                // 初伏以前
-//                if (currentCalendar.compareTo(startCalendar) < 0) {
-//                    return null
-//                }
-//
-//                int days = ExactDate.getDaysBetweenDate(startCalendar, currentCalendar)
-//                if (days < 10) {
-//                    return new Fu("初伏", days + 1)
-//                }
-//
-//                // 第4个庚日，中伏第1天
-//                startCalendar = startCalendar.add(Duration(days: 10))
-//
-//                days = ExactDate.getDaysBetweenDate(startCalendar, currentCalendar)
-//                if (days < 10) {
-//                    return new Fu("中伏", days + 1)
-//                }
-//
-//                // 第5个庚日，中伏第11天或末伏第1天
-//                startCalendar = startCalendar.add(Duration(days: 10))
-//
-//                DateTime liQiuCalendar =
-//                ExactDate.fromYmd(liQiu.getYear(), liQiu.getMonth(), liQiu.getDay())
-//                days = ExactDate.getDaysBetweenDate(startCalendar, currentCalendar)
-//                // 末伏
-//                if (liQiuCalendar.compareTo(startCalendar) <= 0) {
-//                    if (days < 10) {
-//                        return Fu("末伏", days + 1)
-//                    }
-//                } else {
-//                    // 中伏
-//                    if (days < 10) {
-//                        return Fu("中伏", days + 11)
-//                    }
-//                    // 末伏第1天
-//                    startCalendar = startCalendar.add(Duration(days: 10))
-//                    days = ExactDate.getDaysBetweenDate(startCalendar, currentCalendar)
-//                    if (days < 10) {
-//                        return Fu("末伏", days + 1)
-//                    }
-//                }
-//                return null
-//            }
-//
-//                String getLiuYao() => LunarUtil.LIU_YAO[(_month.abs() - 1 + _day - 1) % 6]
-//
+    func getBrassMonkeys() -> BrassMonkeys? {
+        let currentCalendar: Date = solar!.calendar //ExactDate.fromYmd(year: solar!.year, month: solar!.month, day: solar!.day)
+        var start: Solar = jieQi["DONG_ZHI"]!
+        var startCalendar: Date = start.calendar
+        
+        if (currentCalendar.compare(startCalendar).rawValue < 0) {
+            start = jieQi["冬至"]!
+            startCalendar = start.calendar
+        }
+        
+        var endCalendar: Date = start.calendar
+        endCalendar = endCalendar.addingTimeInterval(TimeInterval(81 * 86400))
+        
+        if (currentCalendar.compare(startCalendar).rawValue < 0 ||
+            currentCalendar.compare(endCalendar).rawValue >= 0) {
+            return nil
+        }
+        
+        let days: Int = ExactDate.getDaysBetweenDate(startDate: startCalendar, endDate: currentCalendar)
+        return BrassMonkeys(name: LunarUtil.NUMBER[Int(floor(Double(days) / 9)) + 1] + "九", index: days % 9 + 1)
+    }
+    
+    func getDogDays() -> DogDays? {
+        let currentCalendar: Date = ExactDate.fromYmd(
+            year: solar!.year, month: solar!.month, day: solar!.day)
+//        let currentCalendar: Date = solar!.calendar
+        let summerSolstice: Solar = jieQi["夏至"]!
+        let startOfAutumn: Solar = jieQi["立秋"]!
+        var startCalendar: Date = ExactDate.fromYmd(year: summerSolstice.year, month: summerSolstice.month, day: summerSolstice.day)
+        // 第1个庚日
+        var add: Int = 6 - summerSolstice.getLunar().getDayGanIndex()
+        if (add < 0) {
+          add += 10
+        }
+        // 第3个庚日，即初伏第1天
+        add += 20
+        startCalendar = startCalendar.addingTimeInterval(TimeInterval(add * 86400))
+
+        // 初伏以前
+        if (currentCalendar.compare(startCalendar).rawValue < 0) {
+          return nil;
+        }
+
+        var days: Int = ExactDate.getDaysBetweenDate(startDate: startCalendar, endDate: currentCalendar)
+        if (days < 10) {
+          return DogDays(name: "初伏", index: days + 1)
+        }
+
+        // 第4个庚日，中伏第1天
+        startCalendar = startCalendar.addingTimeInterval(TimeInterval(10 * 86400))
+
+        days = ExactDate.getDaysBetweenDate(startDate: startCalendar, endDate: currentCalendar)
+        if (days < 10) {
+            return DogDays(name: "中伏", index: days + 1)
+        }
+
+        // 第5个庚日，中伏第11天或末伏第1天
+        startCalendar = startCalendar.addingTimeInterval(TimeInterval(10 * 86400))
+
+        let liQiuCalendar: Date = ExactDate.fromYmd(year: startOfAutumn.year, month: startOfAutumn.month, day: startOfAutumn.day)
+        days = ExactDate.getDaysBetweenDate(startDate: startCalendar, endDate: currentCalendar)
+        // 末伏
+        if (liQiuCalendar.compare(startCalendar).rawValue <= 0) {
+          if (days < 10) {
+              return DogDays(name: "末伏", index: days + 1)
+          }
+        } else {
+          // 中伏
+          if (days < 10) {
+              return DogDays(name: "中伏", index: days + 11)
+          }
+          // 末伏第1天
+          startCalendar = startCalendar.addingTimeInterval(TimeInterval(10 * 86400))
+            days = ExactDate.getDaysBetweenDate(startDate: startCalendar, endDate: currentCalendar);
+          if (days < 10) {
+              return DogDays(name: "末伏", index: days + 1)
+          }
+        }
+        return nil;
+      }
+
+    func getLiuYao() -> String {
+        return LunarUtil.LIU_YAO[(abs(month) - 1 + day - 1) % 6]
+    }
+
 //                String getWuHou() {
 //                JieQi jieQi = getPrevJieQi(true)
 //                String? name = jieQi.getName()
@@ -1746,16 +1748,16 @@ struct Lunar {
 //                String hou = LunarUtil.HOU[offset]
 //                return "$name $hou"
 //            }
-//
-//                String getDayLu() {
-//                String gan = LunarUtil.LU[getDayGan()]!
-//                String? zhi = LunarUtil.LU[getDayZhi()]
-//                String lu = gan + "命互禄"
-//                if (null != zhi) {
-//                    lu += " " + zhi + "命进禄"
-//                }
-//                return lu
-//            }
+    
+    func getDayLu() -> String {
+        let gan: String = LunarUtil.LU[getDayGan()]!
+        let zhi: String? = LunarUtil.LU[getDayZhi()]
+        var lu: String = gan + "命互禄"
+        if (nil != zhi) {
+            lu += " " + zhi! + "命进禄"
+        }
+        return lu
+    }
 //
 //                LunarTime getTime() {
 //                return LunarTime.fromYmdHms(_year, _month, _day, _hour, _minute, _second)
@@ -1770,10 +1772,11 @@ struct Lunar {
 //                return l
 //            }
 //
-//                Foto getFoto() {
-//                return Foto.fromLunar(this)
-//            }
-//
+    var buddhis: Buddhis {
+        get {
+            return Buddhis(lunar: self)
+        }
+    }
 //                Tao getTao() {
 //                return Tao.fromLunar(this)
 //            }

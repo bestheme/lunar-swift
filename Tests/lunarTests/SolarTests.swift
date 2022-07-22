@@ -46,5 +46,14 @@ final class SolarTests: XCTestCase {
     func testIsLeepYear() throws {
         XCTAssertEqual(SolarUtil.isLeapYear(year: 1500), false)
     }
+    
+    func testSolarGetterAndSetter() {
+        let dateFormat: DateFormatter = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date: Date = dateFormat.date(from: "2022-07-22 18:59:56")!
+        let solar: Solar = Solar(fromDate: date)
+//        let lunar: Lunar = solar.getLunar()
+        XCTAssertEqual(solar.calendar, date)
+    }
 }
 

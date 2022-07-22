@@ -65,7 +65,7 @@ struct Timeset {
     var lunar: Lunar;
 
     init(lunar: Lunar) {
-        self.lunar=lunar
+        self.lunar = lunar
     }
     
     init(lunar: Lunar, genre: Int) {
@@ -345,7 +345,7 @@ struct Timeset {
     }
 
     func getYun(gender: Int, genre: Int = 1) -> Yun {
-        return Yun(lunar: self.lunar, gender: gender, genre: genre)
+        return Yun(lunar: lunar, gender: gender, genre: genre)
     }
 
     func getYearXun() -> String {

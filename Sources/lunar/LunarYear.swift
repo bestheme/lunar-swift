@@ -456,9 +456,7 @@ struct LunarYear {
         }
         self.ganIndex = yearGanIndex
         self.zhiIndex = yearZhiIndex
-        let result = compute()
-        self.jieQiJulianDays = result.0
-        self.months = result.1
+        compute()
     }
     
     static func fromYear(lunarYear: Int) -> LunarYear {
@@ -470,7 +468,7 @@ struct LunarYear {
         return obj!
     }
     
-    func compute() -> ([Double], [LunarMonth]) {
+    mutating func compute() {
         // 节气(中午12点)，长度27
         var jq: [Double] = []
         // 合朔，即每月初一(中午12点)，长度16
@@ -479,23 +477,19 @@ struct LunarYear {
         var dayCounts: [Int] = []
         
         let currentYear: Int = year
-//        var year: Int = currentYear - 2000
-        
-        var julianDayOfSolarTerms: [Double] = []
-        
-        var calcMonths: [LunarMonth] = []
+        let year: Int = currentYear - 2000
         
         // 从上年的大雪到下年的立春
         for i in 0..<Lunar.JIE_QI_IN_USE.count  {
-            let salonTarg: Double = (Double(currentYear - 2000) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2
+//            let salonTarg: Double = (Double(currentYear - 2000) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2
             // 精确的节气
-            var t: Double = 36525 * ShouXingUtil.saLonT(w: salonTarg)
+            var t: Double = 36525 * ShouXingUtil.saLonT(w: (Double(year) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2)
             t += ShouXingUtil.ONE_THIRD - ShouXingUtil.dtT(t: t)
-            julianDayOfSolarTerms.append(t + Solar.J2000)
+            jieQiJulianDays.append(t + Solar.J2000)
             // 按中午12点算的节气
             if (i > 0 && i < 28) {
                 
-                jq.append(t.rounded())
+                jq.append(round(t))
             }
         }
         
@@ -510,7 +504,7 @@ struct LunarYear {
         }
         // 每月天数
         for i in 0..<15 {
-            dayCounts.append(Int(hs[i + 1] - hs[i]))
+            dayCounts.append(Int(floor(hs[i + 1] - hs[i])))
         }
         
         var currentYearLeap: Int? = LunarYear.leap[currentYear]
@@ -546,7 +540,7 @@ struct LunarYear {
                 isNextLeap = true
             }
             let lunarMonth: LunarMonth? = LunarMonth(year: y, month: cm, dayCount: dayCounts[i], firstJulianDay: hs[i] + Solar.J2000)
-            calcMonths.append(lunarMonth!)
+            months.append(lunarMonth!)
             if (!isNextLeap) {
                 m += 1
             }
@@ -555,7 +549,6 @@ struct LunarYear {
                 y += 1
             }
         }
-        return (julianDayOfSolarTerms, calcMonths)
     }
     
 //    func getYear() -> Int {

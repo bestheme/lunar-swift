@@ -6656,15 +6656,15 @@ struct ShouXingUtil {
 
     static func eLon(t: Double, n: Int) -> Double {
         let t: Double = t/10
-        var v:Double = 0, tn: Double = 1
+        var v: Double = 0, tn: Double = 1
         var n1, n2: Int
         var m: Double
         var c: Double
         let pn: Int = 1
         var n0: Double, m0: Double = XL0[pn + 1] - XL0[pn]
         for i in 0..<6 {
-            n1 = Int(XL0[pn + i])
-            n2 = Int(XL0[pn + 1 + i])
+            n1 = Int(floor(XL0[pn + i]))
+            n2 = Int(floor(XL0[pn + 1 + i]))
             n0 = Double(n2) * 1.0 - Double(n1)
             if (n0 == 0) {
                 continue
@@ -6672,7 +6672,7 @@ struct ShouXingUtil {
             if (n < 0) {
                 m = Double(n2) * 1.0
             } else {
-                m = (3 * Double(n) * n0 / m0 + 0.5) + Double(n1)
+                m = floor(3 * Double(n) * n0 / m0 + 0.5) + Double(n1)
                 if (i != 0) {
                     m += 3
                 }
@@ -6695,11 +6695,12 @@ struct ShouXingUtil {
   }
 
     static func mLon(t: Double, n: Int) -> Double{
+        var num: Int = n
         let ob: [[Double]] = XL1
         let obl: Int = ob[0].count
         var tn: Double = 1
         var v: Double = 0
-        var _: Int
+//        var j: Int
         var c: Double = 0
         var t2: Double = t * t, t3: Double = t2 * t, t4: Double = t3 * t, t5: Double = t4 * t, tx: Double = t - 10
         v += (3.81034409 +
@@ -6720,14 +6721,14 @@ struct ShouXingUtil {
         t3 /= 1e8
         t4 /= 1e8
         
-        var num: Int = n * 6
+        num *= 6
         if (num < 0) {
             num = obl
         }
         for i in 0..<ob.count { //(int i = 0, x = ob.length i < x i++, tn *= t) {
             let f: [Double] = ob[i]
             let l: Int = f.count
-            var m: Int = Int(Double(n) * Double(l) / Double(obl) + 0.5)
+            var m: Int = Int(floor(Double(num) * Double(l) / Double(obl) + 0.5))
             if (i > 0) {
                 m += 6
             }
@@ -6788,8 +6789,8 @@ struct ShouXingUtil {
         }
         var iAtOut: Int = 0
         for i in stride(from: 0, to: size, by: 5) {
+            iAtOut = i
             if (y < DT_AT[i + 5]) {
-                iAtOut = i
                 break
             }
         }
@@ -6846,15 +6847,14 @@ struct ShouXingUtil {
         return t
     }
 
-    static func msaLonT2(w: Double) -> Double{
+    static func msaLonT2(w: Double) -> Double {
         var t: Double, v: Double = 7771.37714500204
         t = (w + 1.08472) / v
         var l: Double, t2: Double = t * t
         t -= (-0.00003309 * t2 +
                0.10976 * cos(0.784758 + 8328.6914246 * t + 0.000152292 * t2) +
                0.02224 * cos(0.18740 + 7214.0628654 * t - 0.00021848 * t2) -
-               0.03342 * cos(4.669257 + 628.307585 * t)) /
-        v
+               0.03342 * cos(4.669257 + 628.307585 * t)) / v
         t2 = t * t
         l = mLon(t: t, n: 20) -
         (4.8950632 +
@@ -6875,7 +6875,7 @@ struct ShouXingUtil {
     static func shuoHigh(w: Double) -> Double{
         var t: Double = msaLonT2(w: w) * 36525
         t = t - dtT(t: t) + ONE_THIRD
-        let v: Double = ((t + 0.5).truncatingRemainder(dividingBy: 1)) * Double(SECOND_PER_DAY)
+        let v: Double = (t + 0.5).truncatingRemainder(dividingBy: 1) * Double(SECOND_PER_DAY)
         if (v < 1800 || v > Double(SECOND_PER_DAY) - 1800) {
             t = msaLonT(w: w) * 36525 - dtT(t: t) + ONE_THIRD
         }
@@ -6888,9 +6888,8 @@ struct ShouXingUtil {
         t -= (-0.0000331 * t * t +
                0.10976 * cos(0.785 + 8328.6914 * t) +
                0.02224 * cos(0.187 + 7214.0629 * t) -
-               0.03342 * cos(4.669 + 628.3076 * t)) /
-        v +
-        (32 * (t + 1.8) * (t + 1.8) - 20) / Double(SECOND_PER_DAY) / 36525
+               0.03342 * cos(4.669 + 628.3076 * t)) / v +
+               (32 * (t + 1.8) * (t + 1.8) - 20) / Double(SECOND_PER_DAY) / 36525
         return t * 36525 + ONE_THIRD
     }
 
@@ -6899,10 +6898,10 @@ struct ShouXingUtil {
         var d: Double = 0
         let pc: Int = 14
         var num: Int = 0
-        let longitude: Double = jd + Solar.J2000 // ?
+        let longitude: Double = jd + Solar.J2000
         let f1: Double = SHUO_KB[0] - Double(pc), f2: Double = SHUO_KB[size - 1] - Double(pc), f3: Double = 2436935
         if (longitude < f1 || longitude >= f3) {
-            d = shuoHigh(w: ((longitude + Double(pc) - 2451551) / 29.5306) * PI_2) + 0.5
+            d = floor(shuoHigh(w: floor((longitude + Double(pc) - 2451551) / 29.5306) * PI_2) + 0.5)
         } else if (longitude >= f1 && longitude < f2) {
             for i in stride(from: 0, to: size, by: 2) {
                 if (longitude + Double(pc) < SHUO_KB[i + 2]) {
@@ -6910,18 +6909,18 @@ struct ShouXingUtil {
                     break
                 }
             }
-            d = SHUO_KB[num] + SHUO_KB[num + 1] * ((longitude + Double(pc) - SHUO_KB[num]) / SHUO_KB[num + 1])
-            d = Double(d + 0.5)
+            d = SHUO_KB[num] + SHUO_KB[num + 1] * floor((longitude + Double(pc) - SHUO_KB[num]) / SHUO_KB[num + 1])
+            d = floor(d + 0.5)
             if (d == 1683460) {
                 d += 1
             }
             d -= Solar.J2000
         } else if (longitude >= f2 && longitude < f3) {
-            d = (shuoLow(w: ((longitude + Double(pc) - 2451551) / 29.5306) *
+            d = floor(shuoLow(w: floor((longitude + Double(pc) - 2451551) / 29.5306) * // Bug is here!!!
                                Double.pi *
                                2) +
                        0.5)
-            let from: Int = Int((longitude - f2) / 29.5306)
+            let from: Int = Int(floor((longitude - f2) / 29.5306))
             let n: String = String(SB[SB.index(SB.startIndex, offsetBy: from)...SB.index(SB.startIndex, offsetBy: from + 1)])
             if ("1" == n) {
                 d += 1

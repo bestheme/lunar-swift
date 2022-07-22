@@ -18,7 +18,7 @@ struct ExactDate {
     }
     
     static func fromYmdHms(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) -> Date {
-        let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
+        let dc = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: year, month: month, day: day, hour: hour, minute: minute, second: second)
         return dc.date!
     }
     

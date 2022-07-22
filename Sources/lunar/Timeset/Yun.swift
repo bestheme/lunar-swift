@@ -44,11 +44,11 @@ struct Yun {
         self.lunar = lunar
         self.gender = gender
         // 阳
-        //    bool yang = 0 == _lunar!.getYearGanIndexExact() % 2
+        let yang: Bool = 0 == lunar.getYearGanIndexExact() % 2
         // 男
-        //    bool man = 1 == gender
-        //    _forward = (yang && man) || (!yang && !man)
-        //    computeStart(sect)
+        let man: Bool = 1 == gender
+        isGoWith = (yang && man) || (!yang && !man)
+        computeStart(genre: genre)
     }
     
     mutating func computeStart(genre: Int) {
@@ -69,11 +69,11 @@ struct Yun {
         
         if (2 == genre) {
             var minutes: Int = Calendar(identifier: .gregorian).dateComponents([.minute], from: end.calendar, to: start.calendar).minute!
-            year = Int(minutes / 4320)
+            year = Int(floor(Double(minutes) / 4320))
             minutes -= year * 4320
-            month = Int(minutes / 360)
+            month = Int(floor(Double(minutes) / 360))
             minutes -= month * 360
-            day = Int(minutes / 12)
+            day = Int(floor(Double(minutes) / 12))
             minutes -= day * 12
             hour = minutes * 2
         } else {

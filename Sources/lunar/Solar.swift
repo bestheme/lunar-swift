@@ -31,17 +31,18 @@ struct Solar {
     
     var calendar: Date {
         get {
-            let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
-            return dc.date!
+//            let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
+            return ExactDate.fromYmdHms(year: year, month: month, day: day, hour: hour, minute: minute, second: second)
         }
         set (date) {
-            let dateCompment: DateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-            year = dateCompment.year!
-            month = dateCompment.month!
-            day = calcDay(day: dateCompment.day!)
-            hour = dateCompment.hour!
-            minute = dateCompment.minute!
-            second = dateCompment.second!
+            let setDate: Date = ExactDate.fromDate(date: date)
+//            let dateCompment: DateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            year = setDate.get(.year) //dateCompment.year!
+            month = setDate.get(.month)   //dateCompment.month!
+            day = calcDay(day: setDate.get(.day))
+            hour = setDate.get(.hour) //dateCompment.hour!
+            minute = setDate.get(.minute) // dateCompment.minute!
+            second = setDate.get(.second) //dateCompment.second!
         }
     }
     
@@ -49,10 +50,10 @@ struct Solar {
         get {
             var y: Int = year
             var m: Int = month
-            let d: Double = (Double(day) + ((Double(second) * 1.0 / 60 + Double(minute)) / 60 + Double(hour)) / 24)
+            let d: Double = Double(day) + ((Double(second) * 1.0 / 60 + Double(minute)) / 60 + Double(hour)) / 24
             var n: Int = 0
             var g: Bool = false
-            if (y * 372 + m * 31 + Int(d) >= 588829) {
+            if (y * 372 + m * 31 + Int(floor(d)) >= 588829) {
                 g = true
             }
             if (m <= 2) {
@@ -60,29 +61,29 @@ struct Solar {
                 y -= 1
             }
             if (g) {
-                n = Int(Double(y) * 1.0 / 100)
-                n = 2 - n + Int(Double(Double(n) * 1.0 / 4))
+                n = Int(floor(Double(y) * 1.0 / 100))
+                n = 2 - n + Int(floor(Double(n) * 1.0 / 4))
             }
-            return (365.25 * Double(y + 4716)) +
-            Double(Int(30.6001 * Double(m + 1))) +
+            return floor(365.25 * (Double(y) + 4716)) +
+            floor(30.6001 * (Double(m) + 1)) +
             d +
             Double(n) -
             1524.5
         }
         set (julianDay) {
-            var d: Int = Int(julianDay + 0.5)
+            var d: Int = Int(floor(julianDay + 0.5))
             var f: Double = julianDay + 0.5 - Double(d)
             var c: Double
             
             if (d >= 2299161) {
-                c = ((Double(d) - 1867216.25) / 36524.25)
-                d += Int(1 + c - (c * 1.0 / 4))
+                c = floor((Double(d) - 1867216.25) / 36524.25)
+                d += Int(1 + c - floor(c * 1.0 / 4))
             }
             d += 1524
-            var year: Int = Int(((Double(d) - 122.1) / 365.25))
-            d -= Int(365.25 * Double(year))
-            var month: Int = Int((Double(d) * 1.0 / 30.601))
-            d -= Int(30.601 * Double(month))
+            var year: Int = Int(floor((Double(d) - 122.1) / 365.25))
+            d -= Int(floor(365.25 * Double(year)))
+            var month: Int = Int(floor(Double(d) * 1.0 / 30.601))
+            d -= Int(floor(30.601 * Double(month)))
             let day: Int = d
             if (month > 13) {
                 month -= 13
@@ -92,15 +93,15 @@ struct Solar {
                 year -= 4716
             }
             f *= 24
-            var hour: Double = f
+            var hour: Int = Int(floor(f))
             
-            f -= hour
+            f -= Double(hour)
             f *= 60
-            var minute: Double = f
+            var minute: Int = Int(floor(f))
             
-            f -= minute
+            f -= Double(minute)
             f *= 60
-            var second: Double = f
+            var second: Int = Int(round(f))
             
             if (second > 59) {
                 second -= 60
@@ -386,7 +387,7 @@ struct Solar {
             l.append(f!)
         }
         //计算几月第几个星期几对应的节日
-        let weeks: Int = Calendar(identifier: .gregorian).component(.weekdayOrdinal, from: calendar)
+        let weeks: Int = Int(ceil(Double(day) / 7.0))
         //星期几，1代表星期天
 //        let week: Int = eek()
         f = SolarUtil.WEEK_FESTIVAL["\(month)-\(weeks)-\(week)"]
@@ -504,6 +505,7 @@ struct Solar {
     }
     
     func getLunar() -> Lunar {
+        let a: Date = calendar
         return Lunar(fromDate: calendar)
     }
 }
