@@ -7,17 +7,17 @@ lunar是一款无第三方依赖的日历工具，支持公历(阳历)、农历(
 
 ## 示例
 
-    import SwiftLunar
+  import SwiftLunar
      
-    void main() {
-      //今天
-      //let date: Lunar = Lunar(fromDate: Date());
-               
-      //指定阴历的某一天
-      let date: Lunar  = Lunar(fromYmd: 1986, month: 4, day: 21)
-      print(date.toFullString())
-      print(date.getSolar().toFullString())
-    }
+
+  //今天
+  //let date: Lunar = Lunar(fromDate: Date());
+
+  //指定阴历的某一天
+  let date: Lunar  = Lunar(fromYmd: 1986, month: 4, day: 21)
+  print(date.toFullString())
+  print(date.getSolar().toFullString())
+
 
 输出结果：
 
