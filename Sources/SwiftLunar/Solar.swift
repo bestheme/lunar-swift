@@ -505,8 +505,6 @@ struct Solar {
     }
     
     func getLunar() -> Lunar {
-        let a: Date = calendar
-        print(a.get(.day))
         return Lunar(fromDate: calendar)
     }
 }

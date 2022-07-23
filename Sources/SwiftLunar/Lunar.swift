@@ -680,14 +680,14 @@ struct Lunar {
         return LunarUtil.POSITION_DESC[getDayPositionYinGui()]!
     }
     
-    func getDayPositionFu(sect: Int = 1) -> String {
-        return (1 == sect
+    func getDayPositionFu(genre: Int = 1) -> String {
+        return (genre == 1
                 ? LunarUtil.POSITION_FU
                 : LunarUtil.POSITION_FU_2)[dayGanIndex + 1]
     }
     
-    func getDayPositionFuDesc(sect: Int = 1) -> String {
-        return LunarUtil.POSITION_DESC[getDayPositionFu(sect: sect)]!
+    func getDayPositionFuDesc(genre: Int = 1) -> String {
+        return LunarUtil.POSITION_DESC[getDayPositionFu(genre: genre)]!
     }
     
     func getDayPositionCai() -> String {
@@ -1456,9 +1456,9 @@ struct Lunar {
         s += "]("
         s += getDayPositionYinGuiDesc()
         s += ") 福神方位["
-        s += getDayPositionFu()
+        s += getDayPositionFu(genre: 2)
         s += "]("
-        s += getDayPositionFuDesc()
+        s += getDayPositionFuDesc(genre: 2)
         s += ") 财神方位["
         s += getDayPositionCai()
         s += "]("
