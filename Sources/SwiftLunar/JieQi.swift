@@ -64,33 +64,33 @@ public struct JieQi {
         self.name = name
         self.solar = solar
     }
-
-//  String getName() => _name!;
-
-//  void setName(String name) {
-//    _name = name;
-//    for (int i = 0, j = JIE_QI.length; i < j; i++) {
-//      if (name == JIE_QI[i]) {
-//        if (i % 2 == 0) {
-//          _qi = true;
-//        } else {
-//          _jie = true;
-//        }
-//        return;
-//      }
-//    }
-//  }
-
-//  Solar getSolar() => _solar!;
-
-//  void setSolar(Solar solar) {
-//    _solar = solar;
-//  }
-
-//  bool isJie() => _jie;
-//
-//  bool isQi() => _qi;
-
+    
+    //  String getName() => _name!;
+    
+    //  void setName(String name) {
+    //    _name = name;
+    //    for (int i = 0, j = JIE_QI.length; i < j; i++) {
+    //      if (name == JIE_QI[i]) {
+    //        if (i % 2 == 0) {
+    //          _qi = true;
+    //        } else {
+    //          _jie = true;
+    //        }
+    //        return;
+    //      }
+    //    }
+    //  }
+    
+    //  Solar getSolar() => _solar!;
+    
+    //  void setSolar(Solar solar) {
+    //    _solar = solar;
+    //  }
+    
+    //  bool isJie() => _jie;
+    //
+    //  bool isQi() => _qi;
+    
     public func toString() -> String {
         return "\(String(describing: name))";
     }

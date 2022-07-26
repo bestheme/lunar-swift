@@ -419,22 +419,22 @@ public struct LunarYear {
     
     /// 节气儒略日们
     var jieQiJulianDays: [Double] = []
-//    {
-//        get {
-//            for i in 0..<Lunar.JIE_QI_IN_USE.count  {
-//                var julianDayOfSolarTerms: [Double]
-//                // 精确的节气
-//                var t: Double = 36525 * ShouXingUtil.saLonT(w: (year + (17 + i) * 15.0 / 360) * ShouXingUtil.PI_2)
-//                t += ShouXingUtil.ONE_THIRD - ShouXingUtil.dtT(t: t)
-//                julianDayOfSolarTerms.append(t + Solar.J2000)
-//                // 按中午12点算的节气
-//                if (i > 0 && i < 28) {
-//                    jq.append(Double(t.round()))
-//                }
-//            }
-//            return
-//        }
-//    }
+    //    {
+    //        get {
+    //            for i in 0..<Lunar.JIE_QI_IN_USE.count  {
+    //                var julianDayOfSolarTerms: [Double]
+    //                // 精确的节气
+    //                var t: Double = 36525 * ShouXingUtil.saLonT(w: (year + (17 + i) * 15.0 / 360) * ShouXingUtil.PI_2)
+    //                t += ShouXingUtil.ONE_THIRD - ShouXingUtil.dtT(t: t)
+    //                julianDayOfSolarTerms.append(t + Solar.J2000)
+    //                // 按中午12点算的节气
+    //                if (i > 0 && i < 28) {
+    //                    jq.append(Double(t.round()))
+    //                }
+    //            }
+    //            return
+    //        }
+    //    }
     
     public init(lunarYear: Int) {
         if (LunarYear.leap.isEmpty) {
@@ -482,7 +482,7 @@ public struct LunarYear {
         
         // 从上年的大雪到下年的立春
         for i in 0..<Lunar.JIE_QI_IN_USE.count  {
-//            let salonTarg: Double = (Double(currentYear - 2000) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2
+            //            let salonTarg: Double = (Double(currentYear - 2000) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2
             // 精确的节气
             var t: Double = 36525 * ShouXingUtil.saLonT(w: (Double(year) + (17 + Double(i)) * 15.0 / 360) * ShouXingUtil.PI_2)
             t += ShouXingUtil.ONE_THIRD - ShouXingUtil.dtT(t: t)
@@ -552,17 +552,17 @@ public struct LunarYear {
         }
     }
     
-//    func getYear() -> Int {
-//        return year
-//    }
-//
-//    func getGanIndex() -> Int {
-//        return ganIndex
-//    }
-//
-//    func getZhiIndex() -> Int {
-//        return zhiIndex
-//    }
+    //    func getYear() -> Int {
+    //        return year
+    //    }
+    //
+    //    func getGanIndex() -> Int {
+    //        return ganIndex
+    //    }
+    //
+    //    func getZhiIndex() -> Int {
+    //        return zhiIndex
+    //    }
     
     public func getGan() -> String {
         return LunarUtil.GAN[ganIndex + 1]
@@ -692,15 +692,15 @@ public struct LunarYear {
         return LunarYear.YUN[Int((year + 2696) / 20) % 9] + "运"
     }
     
-//    func getNineStar() -> NineStar {
-//        var index: Int = LunarUtil.getJiaZiIndex(ganZhi: getGanZhi()) + 1
-//        var yuan: Int = Int((_year + 2696) / 60) % 3
-//        var offset: Int = (62 + yuan * 3 - index) % 9
-//        if (0 == offset) {
-//            offset = 9
-//        }
-//        return NineStar.fromIndex(offset - 1)
-//    }
+    //    func getNineStar() -> NineStar {
+    //        var index: Int = LunarUtil.getJiaZiIndex(ganZhi: getGanZhi()) + 1
+    //        var yuan: Int = Int((_year + 2696) / 60) % 3
+    //        var offset: Int = (62 + yuan * 3 - index) % 9
+    //        if (0 == offset) {
+    //            offset = 9
+    //        }
+    //        return NineStar.fromIndex(offset - 1)
+    //    }
     
     func getPositionXi() -> String {
         return LunarUtil.POSITION_XI[ganIndex + 1]
@@ -726,7 +726,7 @@ public struct LunarYear {
     func getPositionYinGuiDesc() -> String {
         return LunarUtil.POSITION_DESC[getPositionYinGui()]!
     }
-   
+    
     
     func getPositionFu(geren: Int = 1) -> String {
         return (1 == geren

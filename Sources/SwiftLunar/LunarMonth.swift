@@ -87,17 +87,17 @@ public struct LunarMonth {
         return LunarUtil.POSITION_DESC[getPositionTaiSui()]!
     }
     
-//    func getNineStar() -> NineStar {
-//        var index: Int = LunarYear(lunarYear: year).getZhiIndex() % 3
-//        var m: Int = abs(month)
-//        var monthZhiIndex: Int = (13 + m) % 12
-//        var n: Int = 27 - (index * 3)
-//        if (monthZhiIndex < LunarUtil.BASE_MONTH_ZHI_INDEX) {
-//            n -= 3
-//        }
-//        var offset: Int = (n - monthZhiIndex) % 9
-//        return NineStar.fromIndex(offset)
-//    }
+    //    func getNineStar() -> NineStar {
+    //        var index: Int = LunarYear(lunarYear: year).getZhiIndex() % 3
+    //        var m: Int = abs(month)
+    //        var monthZhiIndex: Int = (13 + m) % 12
+    //        var n: Int = 27 - (index * 3)
+    //        if (monthZhiIndex < LunarUtil.BASE_MONTH_ZHI_INDEX) {
+    //            n -= 3
+    //        }
+    //        var offset: Int = (n - monthZhiIndex) % 9
+    //        return NineStar.fromIndex(offset)
+    //    }
     
     func toString() -> String {
         let month: String = LunarUtil.MONTH[abs(month)]

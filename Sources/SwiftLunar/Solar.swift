@@ -32,12 +32,12 @@ public struct Solar {
     
     public var calendar: Date {
         get {
-//            let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
+            //            let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
             return ExactDate.fromYmdHms(year: year, month: month, day: day, hour: hour, minute: minute, second: second)
         }
         set (date) {
             let setDate: Date = ExactDate.fromDate(date: date)
-//            let dateCompment: DateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            //            let dateCompment: DateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
             year = setDate.get(.year) //dateCompment.year!
             month = setDate.get(.month)   //dateCompment.month!
             day = calcDay(day: setDate.get(.day))
@@ -141,7 +141,7 @@ public struct Solar {
         let date: Date = Date()
         self.calendar = date
     }
-
+    
     public init(fromDate date: Date) {
         self.calendar = date
     }
@@ -150,56 +150,56 @@ public struct Solar {
         self.julianDay = julianDay
     }
     
-//    init(fromJulianDay julianDay: Double) {
-//        var d: Double = (julianDay + 0.5)
-//        var f: Double = julianDay + 0.5 - d
-//        var c: Double
-//
-//        if (d >= 2299161) {
-//            c = ((d - 1867216.25) / 36524.25)
-//          d += 1 + c - (c * 1.0 / 4)
-//        }
-//        d += 1524
-//        var year: Double = ((d - 122.1) / 365.25)
-//        d -= (365.25 * year)
-//        var month: Double = (d * 1.0 / 30.601)
-//        d -= (30.601 * month)
-//        var day: Double = d
-//        if (month > 13) {
-//          month -= 13
-//          year -= 4715
-//        } else {
-//          month -= 1
-//          year -= 4716
-//        }
-//        f *= 24
-//        var hour: Double = f
-//
-//        f -= hour
-//        f *= 60
-//        var minute: Double = f
-//
-//        f -= minute
-//        f *= 60
-//        var second: Double = f
-//
-//        if (second > 59) {
-//          second -= 60
-//          minute += 1
-//        }
-//        if (minute > 59) {
-//          minute -= 60
-//          hour += 1
-//        }
-//
-//        self.calendar = ExactDate.fromYmdHms(year, month, day, hour, minute, second)
-//        self.year = calendar.get(.year)
-//        self.month = calendar.get(.month)
-//        self.day = calendar.get(.day)
-//        self.hour = calendar.get(.hour)
-//        self.minute = calendar.get(.minute)
-//        self.second = calendar.get(.second)
-//      }
+    //    init(fromJulianDay julianDay: Double) {
+    //        var d: Double = (julianDay + 0.5)
+    //        var f: Double = julianDay + 0.5 - d
+    //        var c: Double
+    //
+    //        if (d >= 2299161) {
+    //            c = ((d - 1867216.25) / 36524.25)
+    //          d += 1 + c - (c * 1.0 / 4)
+    //        }
+    //        d += 1524
+    //        var year: Double = ((d - 122.1) / 365.25)
+    //        d -= (365.25 * year)
+    //        var month: Double = (d * 1.0 / 30.601)
+    //        d -= (30.601 * month)
+    //        var day: Double = d
+    //        if (month > 13) {
+    //          month -= 13
+    //          year -= 4715
+    //        } else {
+    //          month -= 1
+    //          year -= 4716
+    //        }
+    //        f *= 24
+    //        var hour: Double = f
+    //
+    //        f -= hour
+    //        f *= 60
+    //        var minute: Double = f
+    //
+    //        f -= minute
+    //        f *= 60
+    //        var second: Double = f
+    //
+    //        if (second > 59) {
+    //          second -= 60
+    //          minute += 1
+    //        }
+    //        if (minute > 59) {
+    //          minute -= 60
+    //          hour += 1
+    //        }
+    //
+    //        self.calendar = ExactDate.fromYmdHms(year, month, day, hour, minute, second)
+    //        self.year = calendar.get(.year)
+    //        self.month = calendar.get(.month)
+    //        self.day = calendar.get(.day)
+    //        self.hour = calendar.get(.hour)
+    //        self.minute = calendar.get(.minute)
+    //        self.second = calendar.get(.second)
+    //      }
     
     //  static List<Solar>? getSolarfromBaZi(
     //      {required String yearGanZhi,
@@ -299,11 +299,11 @@ public struct Solar {
     func toString() -> String {
         return toYmd()
     }
-
-
-//    func isLeapYear() -> Bool {
-//        return SolarUtil.isLeapYear(year: year)
-//    }
+    
+    
+    //    func isLeapYear() -> Bool {
+    //        return SolarUtil.isLeapYear(year: year)
+    //    }
     
     //   获取星期，0代表周日，1代表周一
     //   @return 0123456
@@ -354,29 +354,29 @@ public struct Solar {
     
     /// 获取儒略日
     /// @return 儒略日
-//    func getJulianDay() -> Double{
-//        var y: Int = year
-//        var m: Int = month
-//        var d: Double = day + ((second * 1.0 / 60 + minute) / 60 + hour) / 24
-//        var n: Int = 0
-//        var g: Bool = false
-//        if (y * 372 + m * 31 + d.floor() >= 588829) {
-//            g = true
-//        }
-//        if (m <= 2) {
-//            m += 12
-//            y -= 1
-//        }
-//        if (g) {
-//            n = (y * 1.0 / 100).floor()
-//            n = 2 - n + (n * 1.0 / 4).floor()
-//        }
-//        return ((365.25 * (y + 4716)).floor()) +
-//        ((30.6001 * (m + 1)).floor()) +
-//        d +
-//        n -
-//        1524.5
-//    }
+    //    func getJulianDay() -> Double{
+    //        var y: Int = year
+    //        var m: Int = month
+    //        var d: Double = day + ((second * 1.0 / 60 + minute) / 60 + hour) / 24
+    //        var n: Int = 0
+    //        var g: Bool = false
+    //        if (y * 372 + m * 31 + d.floor() >= 588829) {
+    //            g = true
+    //        }
+    //        if (m <= 2) {
+    //            m += 12
+    //            y -= 1
+    //        }
+    //        if (g) {
+    //            n = (y * 1.0 / 100).floor()
+    //            n = 2 - n + (n * 1.0 / 4).floor()
+    //        }
+    //        return ((365.25 * (y + 4716)).floor()) +
+    //        ((30.6001 * (m + 1)).floor()) +
+    //        d +
+    //        n -
+    //        1524.5
+    //    }
     
     /// 获取节日，有可能一天会有多个节日
     /// @return 劳动节等
@@ -390,7 +390,7 @@ public struct Solar {
         //计算几月第几个星期几对应的节日
         let weeks: Int = Int(ceil(Double(day) / 7.0))
         //星期几，1代表星期天
-//        let week: Int = eek()
+        //        let week: Int = eek()
         f = SolarUtil.WEEK_FESTIVAL["\(month)-\(weeks)-\(week)"]
         if (nil != f) {
             l.append(f!)
@@ -407,11 +407,11 @@ public struct Solar {
     func calcDay(day: Int) -> Int {
         var newDay: Int = day
         if (year == 1582 && month == 10) {
-              if (newDay >= 15) {
-                  newDay -= 10
-                  return newDay
-              }
+            if (newDay >= 15) {
+                newDay -= 10
+                return newDay
             }
+        }
         return newDay
     }
     /// 获取非正式的节日，有可能一天会有多个节日
@@ -474,21 +474,21 @@ public struct Solar {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd"
         return dateFormat.string(from: calendar)
-//        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_HK")).year(.defaultDigits).month(.twoDigits).day(.twoDigits))
+        //        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_HK")).year(.defaultDigits).month(.twoDigits).day(.twoDigits))
     }
     
     func toYmdHms() -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormat.string(from: calendar)
-//        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_CN")).year(.defaultDigits).month(.twoDigits).day(.twoDigits).hour(.twoDigits(amPM: .narrow)).minute(.twoDigits).second(.twoDigits))
+        //        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_CN")).year(.defaultDigits).month(.twoDigits).day(.twoDigits).hour(.twoDigits(amPM: .narrow)).minute(.twoDigits).second(.twoDigits))
     }
     
     func toHm() -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "HH:mm"
         return dateFormat.string(from: calendar)
-//        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_CN")).hour(.twoDigits(amPM: .narrow)).minute(.twoDigits))
+        //        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_CN")).hour(.twoDigits(amPM: .narrow)).minute(.twoDigits))
     }
     
     func toFullString() -> String {

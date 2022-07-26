@@ -122,7 +122,7 @@ struct Taoist {
     var isDayWuLa: Bool {
         get {
             return isDayIn(days: TaoistUtil.WU_LA)
-
+            
         }
     }
     
@@ -143,13 +143,13 @@ struct Taoist {
             return lunar!.getDayZhi() == TaoistUtil.AN_WU[abs(month) - 1]
         }
     }
-
+    
     var isDayWu: Bool {
         get {
             return isDayMingWu || isDayAnWu
         }
     }
-
+    
     var isDayTianShe: Bool {
         get {
             var ret: Bool = false;
@@ -174,13 +174,13 @@ struct Taoist {
             }
             return ret;
         }
-  }
-
-  func toString() -> String {
-    return "\(yearInChinese)年\(monthInChinese)月\(dayInChinese)";
-  }
-
-  func toFullString() -> String {
-    return "道歷\(yearInChinese)年，天運\(lunar!.getYearInGanZhi())年，\(lunar!.getMonthInGanZhi())月，\(lunar!.getDayInGanZhi())日。\(monthInChinese)月\(dayInChinese)日，\(lunar!.getTimeZhi())時。"
-  }
+    }
+    
+    func toString() -> String {
+        return "\(yearInChinese)年\(monthInChinese)月\(dayInChinese)";
+    }
+    
+    func toFullString() -> String {
+        return "道歷\(yearInChinese)年，天運\(lunar!.getYearInGanZhi())年，\(lunar!.getMonthInGanZhi())月，\(lunar!.getDayInGanZhi())日。\(monthInChinese)月\(dayInChinese)日，\(lunar!.getTimeZhi())時。"
+    }
 }

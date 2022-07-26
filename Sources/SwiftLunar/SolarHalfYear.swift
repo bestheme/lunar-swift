@@ -37,12 +37,12 @@ struct SolarHalfYear {
         }
     }
     
-//    var next: SolarHalfYear {
-//        get(halfYears: Int) {
-//            if ha
-//        }
-//    }
-
+    //    var next: SolarHalfYear {
+    //        get(halfYears: Int) {
+    //            if ha
+    //        }
+    //    }
+    
     init(year: Int, month: Int) {
         self.year = year
         self.month = month
@@ -53,16 +53,16 @@ struct SolarHalfYear {
         month = date.get(.day)
     }
     
-
-//  List<SolarMonth> getMonths() {
-//    List<SolarMonth> l = <SolarMonth>[];
-//    int index = getIndex() - 1;
-//    for (int i = 0; i < MONTH_COUNT; i++) {
-//      l.add(SolarMonth.fromYm(_year, MONTH_COUNT * index + i + 1));
-//    }
-//    return l;
-//  }
-
+    
+    //  List<SolarMonth> getMonths() {
+    //    List<SolarMonth> l = <SolarMonth>[];
+    //    int index = getIndex() - 1;
+    //    for (int i = 0; i < MONTH_COUNT; i++) {
+    //      l.add(SolarMonth.fromYm(_year, MONTH_COUNT * index + i + 1));
+    //    }
+    //    return l;
+    //  }
+    
     func next(halfYears: Int) -> SolarHalfYear {
         if (0 == halfYears) {
             return SolarHalfYear(year: year, month: month);
@@ -82,13 +82,13 @@ struct SolarHalfYear {
             return SolarHalfYear(year: y, month: m);
         }
     }
-
-  func toString() -> String {
-    return "\(year).\(index)"
-  }
-
-  func toFullString() -> String {
-    return "\(year)年\(index == 1 ? "上" : "下")半年"
-  }
+    
+    func toString() -> String {
+        return "\(year).\(index)"
+    }
+    
+    func toFullString() -> String {
+        return "\(year)年\(index == 1 ? "上" : "下")半年"
+    }
 }
 

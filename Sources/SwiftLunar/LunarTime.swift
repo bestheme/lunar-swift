@@ -39,49 +39,49 @@ public struct LunarTime {
     public func getShengXiao() -> String {
         return LunarUtil.SHENGXIAO[zhiIndex + 1]
     }
-
+    
     public func getGan() -> String {
         return LunarUtil.GAN[ganIndex + 1]
     }
-
+    
     public func getZhi() -> String {
         return LunarUtil.ZHI[zhiIndex + 1]
     }
-
+    
     public func getGanZhi() -> String {
         return "\(getGan())\(getZhi())"
     }
-
+    
     func getPositionXi() -> String {
         return LunarUtil.POSITION_XI[ganIndex + 1]
     }
-
+    
     func getPositionXiDesc() -> String {
         return LunarUtil.POSITION_DESC[getPositionXi()]!
     }
-
+    
     func getPositionYangGui() -> String {
         return LunarUtil.POSITION_YANG_GUI[ganIndex + 1]
     }
-
+    
     func getPositionYangGuiDesc() -> String {
         return LunarUtil.POSITION_DESC[getPositionYangGui()]!
     }
-
+    
     func getPositionYinGui() -> String {
         return LunarUtil.POSITION_YIN_GUI[ganIndex + 1]
     }
-
+    
     func getPositionYinGuiDesc() -> String {
         return LunarUtil.POSITION_DESC[getPositionYinGui()]!
     }
-
+    
     func getPositionFu(geren: Int = 1) -> String {
         return (1 == geren
                 ? LunarUtil.POSITION_FU
                 : LunarUtil.POSITION_FU_2)[ganIndex + 1]
     }
-
+    
     func getPositionFuDesc(geren: Int = 1 ) -> String {
         return LunarUtil.POSITION_DESC[getPositionFu(geren: geren)]!
     }
@@ -97,98 +97,98 @@ public struct LunarTime {
     func getNaYin() -> String {
         return LunarUtil.NAYIN[getGanZhi()]!
     }
-
-  func getTianShen() -> String {
-      let dayZhi: String = lunar!.getDayZhiExact()
-      let offset: Int = LunarUtil.ZHI_TIAN_SHEN_OFFSET[dayZhi]!
-    return LunarUtil.TIAN_SHEN[(zhiIndex + offset) % 12 + 1]
-  }
-
+    
+    func getTianShen() -> String {
+        let dayZhi: String = lunar!.getDayZhiExact()
+        let offset: Int = LunarUtil.ZHI_TIAN_SHEN_OFFSET[dayZhi]!
+        return LunarUtil.TIAN_SHEN[(zhiIndex + offset) % 12 + 1]
+    }
+    
     func getTianShenType() -> String {
         return LunarUtil.TIAN_SHEN_TYPE[getTianShen()]!
     }
-
+    
     func getTianShenLuck() -> String {
         return LunarUtil.TIAN_SHEN_TYPE_LUCK[getTianShenType()]!
     }
-
+    
     public func getChong() -> String {
         return LunarUtil.CHONG[zhiIndex]
     }
-
+    
     func getSha() -> String {
         return LunarUtil.SHA[getZhi()]!
     }
-
-  func getChongShengXiao() -> String {
-      let chong: String = getChong()
-      for i in 0..<LunarUtil.ZHI.count {
-      if (LunarUtil.ZHI[i] == chong) {
-        return LunarUtil.SHENGXIAO[i]
-      }
+    
+    func getChongShengXiao() -> String {
+        let chong: String = getChong()
+        for i in 0..<LunarUtil.ZHI.count {
+            if (LunarUtil.ZHI[i] == chong) {
+                return LunarUtil.SHENGXIAO[i]
+            }
+        }
+        return ""
     }
-    return ""
-  }
-
+    
     func getChongDesc() -> String {
         "(\(getChongGan())\(getChong()))\(getChongShengXiao())"
     }
-
+    
     public func getChongGan() -> String {
         return LunarUtil.CHONG_GAN[ganIndex]
     }
-
+    
     func getChongGanTie() -> String {
         return LunarUtil.CHONG_GAN_TIE[ganIndex]
     }
-
+    
     func getYi() -> [String] {
-       return LunarUtil.getTimeYi(dayGanZhi: lunar!.getDayInGanZhiExact(), timeGanZhi: getGanZhi())
+        return LunarUtil.getTimeYi(dayGanZhi: lunar!.getDayInGanZhiExact(), timeGanZhi: getGanZhi())
     }
-
+    
     func getJi() -> [String] {
         return LunarUtil.getTimeJi(dayGanZhi: lunar!.getDayInGanZhiExact(), timeGanZhi: getGanZhi())
     }
-
-//  func getNineStar() -> NineStar {
-//    //顺逆
-//    String solarYmd = _lunar!.getSolar().toYmd()
-//    Map<String, Solar> jieQi = _lunar!.getJieQiTable()
-//    bool asc = false
-//    if (solarYmd.compareTo(jieQi["冬至"]!.toYmd()) >= 0 &&
-//        solarYmd.compareTo(jieQi["夏至"]!.toYmd()) < 0) {
-//      asc = true
-//    }
-//    int start = asc ? 7 : 3
-//    String dayZhi = _lunar!.getDayZhi()
-//    if ("子午卯酉".contains(dayZhi)) {
-//      start = asc ? 1 : 9
-//    } else if ("辰戌丑未".contains(dayZhi)) {
-//      start = asc ? 4 : 6
-//    }
-//    int index = asc ? start + _zhiIndex - 1 : start - _zhiIndex - 1
-//    if (index > 8) {
-//      index -= 9
-//    }
-//    if (index < 0) {
-//      index += 9
-//    }
-//    return NineStar(index)
-//  }
-
+    
+    //  func getNineStar() -> NineStar {
+    //    //顺逆
+    //    String solarYmd = _lunar!.getSolar().toYmd()
+    //    Map<String, Solar> jieQi = _lunar!.getJieQiTable()
+    //    bool asc = false
+    //    if (solarYmd.compareTo(jieQi["冬至"]!.toYmd()) >= 0 &&
+    //        solarYmd.compareTo(jieQi["夏至"]!.toYmd()) < 0) {
+    //      asc = true
+    //    }
+    //    int start = asc ? 7 : 3
+    //    String dayZhi = _lunar!.getDayZhi()
+    //    if ("子午卯酉".contains(dayZhi)) {
+    //      start = asc ? 1 : 9
+    //    } else if ("辰戌丑未".contains(dayZhi)) {
+    //      start = asc ? 4 : 6
+    //    }
+    //    int index = asc ? start + _zhiIndex - 1 : start - _zhiIndex - 1
+    //    if (index > 8) {
+    //      index -= 9
+    //    }
+    //    if (index < 0) {
+    //      index += 9
+    //    }
+    //    return NineStar(index)
+    //  }
+    
     
     func toString() -> String {
         return getGanZhi()
     }
-
+    
     public func getXun() -> String {
         return LunarUtil.getXun(ganZhi: getGanZhi())
     }
-
+    
     public func getXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getGanZhi())
     }
-
+    
     func getMinHm() -> String {
         var hour: Int = lunar!.hour
         if (hour < 1) {
@@ -201,7 +201,7 @@ public struct LunarTime {
         }
         return "\(hour < 10 ? "0" : "")\(hour):00"
     }
-
+    
     func getMaxHm() -> String {
         var hour: Int = lunar!.hour
         if (hour < 1) {
