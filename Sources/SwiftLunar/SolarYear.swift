@@ -7,6 +7,7 @@
 import Foundation
 // 阳历年
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct SolarYear {
   /// 一年的月数

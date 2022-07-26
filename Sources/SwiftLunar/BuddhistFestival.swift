@@ -6,27 +6,27 @@
 //
 // 佛历因果犯忌
 
-struct BuddhistFestival {
+public struct BuddhistFestival {
   /// 是日何日，如：雷斋日
-    var name: String?
+    public var name: String?
 
   /// 犯之因果，如：犯者夺纪
-    var result: String?
+    public var result: String?
 
   /// 是否每月同
-    var everyMonth: Bool?
+    public var everyMonth: Bool?
 
   /// 备注，如：宜先一日即戒
-    var remark: String?
+    public var remark: String?
 
-    init(name: String, result: String = "", everyMonth: Bool = false, remark: String = "") {
+    public init(name: String, result: String = "", everyMonth: Bool = false, remark: String = "") {
         self.name = name;
         self.result = result
         self.everyMonth = everyMonth
         self.remark = remark
   }
 
-    func isEveryMonth() -> Bool {
+    public func isEveryMonth() -> Bool {
         return everyMonth!
     }
 

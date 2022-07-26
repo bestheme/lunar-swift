@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct HolidayUtil {
     /// 数据段长度
@@ -42,7 +43,7 @@ struct HolidayUtil {
     static var dataInUse: String = DATA;
     
     static func padding(n: Int) -> String {
-        return (n < 10 ? "0" : "") + n.formatted()
+        return (n < 10 ? "0" : "") + String(n)
     }
     
     static func buildHolidayForward(s: String) -> Holiday {

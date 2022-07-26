@@ -6,8 +6,9 @@
 //
 // Solar terms
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct JieQi {
+public struct JieQi {
     static let JIE_QI: [String] = [
         "冬至",
         "小寒",
@@ -36,7 +37,7 @@ struct JieQi {
     ];
     
     /// 名称
-    var name: String? {
+    public var name: String? {
         didSet {
             for i in 0..<JieQi.JIE_QI.count {
                 if name == JieQi.JIE_QI[i] {
@@ -51,15 +52,15 @@ struct JieQi {
     }
     
     /// 阳历日期
-    var solar: Solar?;
+    public var solar: Solar?;
     
     /// 是否节令
-    var isJie: Bool = false
+    public var isJie: Bool = false
     
     /// 是否气令
-    var isQi: Bool = false;
+    public var isQi: Bool = false;
     
-    init(name: String, solar: Solar) {
+    public init(name: String, solar: Solar) {
         self.name = name
         self.solar = solar
     }
@@ -90,7 +91,7 @@ struct JieQi {
 //
 //  bool isQi() => _qi;
 
-    func toString() -> String {
+    public func toString() -> String {
         return "\(String(describing: name))";
     }
 }

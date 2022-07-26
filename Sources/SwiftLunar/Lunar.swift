@@ -1,8 +1,9 @@
 import Foundation
 // 阴历日期
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct Lunar {
+public struct Lunar {
     static let JIE_QI_IN_USE: [String] = [
         "DA_XUE",
         "冬至",
@@ -37,39 +38,39 @@ struct Lunar {
         "JING_ZHE"
     ]
     
-    var year: Int = 0
+    public var year: Int = 0
     
-    var month: Int = 0
+    public var month: Int = 0
     
-    var day: Int = 0
+    public var day: Int = 0
     
-    var hour: Int = 0
+    public var hour: Int = 0
     
-    var minute: Int = 0
+    public var minute: Int = 0
     
-    var second: Int = 0
+    public var second: Int = 0
     
-    var timeGanIndex: Int = 0
-    var timeZhiIndex: Int = 0
-    var dayGanIndex: Int = 0
-    var dayZhiIndex: Int = 0
-    var dayGanIndexExact: Int = 0
-    var dayZhiIndexExact: Int = 0
-    var dayGanIndexExact2: Int = 0
-    var dayZhiIndexExact2: Int = 0
-    var monthGanIndex: Int = 0
-    var monthZhiIndex: Int = 0
-    var monthGanIndexExact: Int = 0
-    var monthZhiIndexExact: Int = 0
-    var yearGanIndex: Int = 0
-    var yearZhiIndex: Int = 0
-    var yearGanIndexByLiChun: Int = 0
-    var yearZhiIndexByLiChun: Int = 0
-    var yearGanIndexExact: Int = 0
-    var yearZhiIndexExact: Int = 0
-    var weekIndex: Int = 0
+    public var timeGanIndex: Int = 0
+    public var timeZhiIndex: Int = 0
+    public var dayGanIndex: Int = 0
+    public var dayZhiIndex: Int = 0
+    public var dayGanIndexExact: Int = 0
+    public var dayZhiIndexExact: Int = 0
+    public var dayGanIndexExact2: Int = 0
+    public var dayZhiIndexExact2: Int = 0
+    public var monthGanIndex: Int = 0
+    public var monthZhiIndex: Int = 0
+    public var monthGanIndexExact: Int = 0
+    public var monthZhiIndexExact: Int = 0
+    public var yearGanIndex: Int = 0
+    public var yearZhiIndex: Int = 0
+    public var yearGanIndexByLiChun: Int = 0
+    public var yearZhiIndexByLiChun: Int = 0
+    public var yearGanIndexExact: Int = 0
+    public var yearZhiIndexExact: Int = 0
+    public var weekIndex: Int = 0
     
-    var solar: Solar? {
+    public var solar: Solar? {
         didSet {
             self.weekIndex = solar!.week
         }
@@ -77,7 +78,7 @@ struct Lunar {
     
     //    var timeset: Timeset?
     
-    var jieQi: [String: Solar] = [:]
+    public var jieQi: [String: Solar] = [:]
     //    var jieQi: [String: Solar] {
     //        get {
     //            let lunarYear: LunarYear = LunarYear(lunarYear: year)
@@ -90,7 +91,7 @@ struct Lunar {
     //        }
     //    }
     
-    init(fromYmdHms lunarYear: Int, lunarMonth: Int, lunarDay: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) {
+    public init(fromYmdHms lunarYear: Int, lunarMonth: Int, lunarDay: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) {
         let y: LunarYear = LunarYear(lunarYear: lunarYear)
         let m: LunarMonth? = y.getMonth(lunarMonth: lunarMonth)
         if (nil == m) {
@@ -115,7 +116,7 @@ struct Lunar {
         compute(lunarYear: y)
     }
     
-    init(fromDate date: Date) {
+    public init(fromDate date: Date) {
         self.solar = Solar(fromDate: date)
         let currentYear = solar!.year
         let currentMonth = solar!.month
@@ -324,43 +325,43 @@ struct Lunar {
     //
     //                int getSecond() => _second
     
-    func getGan() -> String {
+    public func getGan() -> String {
         return getYearGan()
     }
     
-    func getYearGan() -> String {
+    public func getYearGan() -> String {
         return LunarUtil.GAN[yearGanIndex + 1]
     }
     
-    func getYearGanByLiChun() -> String {
+    public func getYearGanByLiChun() -> String {
         return LunarUtil.GAN[yearGanIndexByLiChun + 1]
     }
     
-    func  getYearGanExact() -> String {
+    public func  getYearGanExact() -> String {
         return LunarUtil.GAN[yearGanIndexExact + 1]
     }
     
-    func getZhi() -> String {
+    public func getZhi() -> String {
         return getYearZhi()
     }
     
-    func getYearZhi() -> String {
+    public func getYearZhi() -> String {
         return  LunarUtil.ZHI[yearZhiIndex + 1]
     }
     
-    func getYearZhiByLiChun() -> String {
+    public func getYearZhiByLiChun() -> String {
         return LunarUtil.ZHI[yearZhiIndexByLiChun + 1]
     }
     
-    func getYearZhiExact() -> String {
+    public func getYearZhiExact() -> String {
         return LunarUtil.ZHI[yearZhiIndexExact + 1]
     }
     
-    func getYearInGanZhi() -> String {
+    public func getYearInGanZhi() -> String {
         return "\(getYearGan())\(getYearZhi())"
     }
     
-    func getYearInGanZhiByLiChun() -> String {
+    public func getYearInGanZhiByLiChun() -> String {
         return "\(getYearGanByLiChun())\(getYearZhiByLiChun())"
     }
     
@@ -376,7 +377,7 @@ struct Lunar {
         return "\(getMonthGanExact())\(getMonthZhiExact())"
     }
     
-    func getMonthGan() -> String {
+    public func getMonthGan() -> String {
         return LunarUtil.GAN[monthGanIndex + 1]
     }
     
@@ -384,7 +385,7 @@ struct Lunar {
         return LunarUtil.GAN[monthGanIndexExact + 1]
     }
     
-    func getMonthZhi() -> String {
+    public func getMonthZhi() -> String {
         return LunarUtil.ZHI[monthZhiIndex + 1]
     }
     
@@ -392,7 +393,7 @@ struct Lunar {
         return LunarUtil.ZHI[monthZhiIndexExact + 1]
     }
     
-    func getDayInGanZhi() -> String {
+    public func getDayInGanZhi() -> String {
         return "\(getDayGan())\(getDayZhi())"
     }
     
@@ -404,7 +405,7 @@ struct Lunar {
         return "\(getDayGanExact2())\(getDayZhiExact2())"
     }
     
-    func getDayGan() -> String {
+    public func getDayGan() -> String {
         return LunarUtil.GAN[dayGanIndex + 1]
     }
     
@@ -416,7 +417,7 @@ struct Lunar {
         return LunarUtil.GAN[dayGanIndexExact2 + 1]
     }
     
-    func getDayZhi() -> String {
+    public func getDayZhi() -> String {
         return LunarUtil.ZHI[dayZhiIndex + 1]
     }
     
@@ -428,32 +429,32 @@ struct Lunar {
     }
     
     @available(*, deprecated, message: "Use getYearShengXiao() instead")
-    func getShengxiao() -> String {
+    public func getShengxiao() -> String {
         return getYearShengXiao()
     }
     
-    func getYearShengXiao() -> String {
+    public func getYearShengXiao() -> String {
         return LunarUtil.SHENGXIAO[yearZhiIndex + 1]
     }
     
-    func getYearShengXiaoByLiChun() -> String {
+    public func getYearShengXiaoByLiChun() -> String {
         return LunarUtil.SHENGXIAO[yearZhiIndexByLiChun + 1]
     }
     
-    func getYearShengXiaoExact() -> String {
+    public func getYearShengXiaoExact() -> String {
         return LunarUtil.SHENGXIAO[yearZhiIndexExact + 1]
     }
     
-    func getMonthShengXiao() -> String { return LunarUtil.SHENGXIAO[monthZhiIndex + 1]
+    public func getMonthShengXiao() -> String { return LunarUtil.SHENGXIAO[monthZhiIndex + 1]
     }
     
-    func getDayShengXiao() -> String { return LunarUtil.SHENGXIAO[dayZhiIndex + 1]
+    public func getDayShengXiao() -> String { return LunarUtil.SHENGXIAO[dayZhiIndex + 1]
     }
     
-    func getTimeShengXiao() -> String { return LunarUtil.SHENGXIAO[timeZhiIndex + 1]
+    public func getTimeShengXiao() -> String { return LunarUtil.SHENGXIAO[timeZhiIndex + 1]
     }
     
-    func getYearInChinese() -> String {
+    public func getYearInChinese() -> String {
         let y: String = String(year)
         var s: String = ""
         for v in y.utf16  {
@@ -462,27 +463,27 @@ struct Lunar {
         return s
     }
     
-    func getMonthInChinese() -> String {
+    public func getMonthInChinese() -> String {
         return (month < 0 ? "闰" : "") + LunarUtil.MONTH[abs(month)]
     }
     
-    func getDayInChinese() -> String {
+    public func getDayInChinese() -> String {
         return LunarUtil.DAY[day]
     }
     
-    func getTimeZhi() -> String {
+    public func getTimeZhi() -> String {
         return LunarUtil.ZHI[timeZhiIndex + 1]
     }
     
-    func  getTimeGan() -> String {
+    public func  getTimeGan() -> String {
         LunarUtil.GAN[timeGanIndex + 1]
     }
     
-    func getTimeInGanZhi() -> String {
+    public func getTimeInGanZhi() -> String {
         return "\(getTimeGan())\(getTimeZhi())"
     }
     
-    func getSeason() -> String {
+    public func getSeason() -> String {
         LunarUtil.SEASON[abs(month)]
     }
     
@@ -506,7 +507,7 @@ struct Lunar {
         return jq
     }
     
-    func getJie() -> String {
+    public func getJie() -> String {
         for i in stride(from: 0, to: Lunar.JIE_QI_IN_USE.count, by: 2) {
             let key: String = Lunar.JIE_QI_IN_USE[i]
             let d: Solar? = jieQi[key]
@@ -519,7 +520,7 @@ struct Lunar {
         return ""
     }
     
-    func getQi() -> String {
+    public func getQi() -> String {
         for i in stride(from: 1, to: Lunar.JIE_QI_IN_USE.count, by: 2) {
             let key: String = Lunar.JIE_QI_IN_USE[i]
             let d: Solar? = jieQi[key]
@@ -532,11 +533,11 @@ struct Lunar {
         return ""
     }
     
-    func getWeek() -> Int {
+    public func getWeek() -> Int {
         return weekIndex
     }
     
-    func getWeekInChinese() -> String {
+    public func getWeekInChinese() -> String {
         SolarUtil.WEEK[getWeek()]
     }
     
@@ -568,7 +569,7 @@ struct Lunar {
         LunarUtil.SHOU[getGong()]!
     }
     
-    func getFestivals() -> [String] {
+    public func getFestivals() -> [String] {
         var l: [String] = []
         let f: String? = LunarUtil.FESTIVAL["\(month)-\(day)"]
         if (nil != f) {
@@ -580,7 +581,7 @@ struct Lunar {
         return l
     }
     
-    func getOtherFestivals() -> [String] {
+    public func getOtherFestivals() -> [String] {
         var l: [String] = []
         let fs: [String] = LunarUtil.OTHER_FESTIVAL["\(month)-\(day)"] ?? []
         l.append(contentsOf: fs)
@@ -1547,23 +1548,23 @@ struct Lunar {
         return yearZhiIndexExact
     }
     
-    func getSolar() -> Solar {
+    public func getSolar() -> Solar {
         return solar!
     }
     
-    func getTimeset() -> Timeset{
+    public func getTimeset() -> Timeset{
         return Timeset(lunar: self)
     }
     
-    func next(days: Int) -> Lunar {
+    public func next(days: Int) -> Lunar {
         return solar!.next(days: days).getLunar()
     }
     
-    func getYearXun() -> String {
+    public func getYearXun() -> String {
         return LunarUtil.getXun(ganZhi: getYearInGanZhi())
     }
     
-    func getYearXunByLiChun() -> String {
+    public func getYearXunByLiChun() -> String {
         return LunarUtil.getXun(ganZhi: getYearInGanZhiByLiChun())
     }
     
@@ -1571,11 +1572,11 @@ struct Lunar {
         return LunarUtil.getXun(ganZhi: getYearInGanZhiExact())
     }
     
-    func getYearXunKong() -> String {
+    public func getYearXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getYearInGanZhi())
     }
     
-    func getYearXunKongByLiChun() -> String {
+    public func getYearXunKongByLiChun() -> String {
         return LunarUtil.getXunKong(ganZhi: getYearInGanZhiByLiChun())
     }
     
@@ -1583,7 +1584,7 @@ struct Lunar {
         return LunarUtil.getXunKong(ganZhi: getYearInGanZhiExact())
     }
     
-    func getMonthXun() -> String {
+    public func getMonthXun() -> String {
         return LunarUtil.getXun(ganZhi: getMonthInGanZhi())
     }
     
@@ -1591,7 +1592,7 @@ struct Lunar {
         return LunarUtil.getXun(ganZhi: getMonthInGanZhiExact())
     }
     
-    func getMonthXunKong() -> String {
+    public func getMonthXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getMonthInGanZhi())
     }
     
@@ -1599,7 +1600,7 @@ struct Lunar {
         return LunarUtil.getXunKong(ganZhi: getMonthInGanZhiExact())
     }
     
-    func getDayXun() -> String {
+    public func getDayXun() -> String {
         return LunarUtil.getXun(ganZhi: getDayInGanZhi())
     }
     
@@ -1611,7 +1612,7 @@ struct Lunar {
         return LunarUtil.getXun(ganZhi: getDayInGanZhiExact2())
     }
     
-    func getDayXunKong() -> String {
+    public func getDayXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getDayInGanZhi())
     }
     
@@ -1623,15 +1624,15 @@ struct Lunar {
         return LunarUtil.getXunKong(ganZhi: getDayInGanZhiExact2())
     }
     
-    func getTimeXun() -> String {
+    public func getTimeXun() -> String {
         return LunarUtil.getXun(ganZhi: getTimeInGanZhi())
     }
     
-    func getTimeXunKong() -> String {
+    public func getTimeXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getTimeInGanZhi())
     }
     
-    func getBrassMonkeys() -> BrassMonkeys? {
+    public func getBrassMonkeys() -> BrassMonkeys? {
         let currentCalendar: Date = ExactDate.fromYmd(year: solar!.year, month: solar!.month, day: solar!.day)
         var start: Solar = jieQi["DONG_ZHI"]!
         var startCalendar: Date = ExactDate.fromYmd(year: start.year, month: start.month, day: start.day)
@@ -1653,7 +1654,7 @@ struct Lunar {
         return BrassMonkeys(name: LunarUtil.NUMBER[Int(floor(Double(days) / 9)) + 1] + "九", index: days % 9 + 1)
     }
     
-    func getDogDays() -> DogDays? {
+    public func getDogDays() -> DogDays? {
         let currentCalendar: Date = ExactDate.fromYmd(
             year: solar!.year, month: solar!.month, day: solar!.day)
         //        let currentCalendar: Date = solar!.calendar

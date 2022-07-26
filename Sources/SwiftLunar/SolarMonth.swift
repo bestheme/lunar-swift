@@ -8,15 +8,16 @@ import Foundation
 
 // 阳历月
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct SolarMonth {
+public struct SolarMonth {
     /// 年
-    var year: Int = 0;
+    public var year: Int = 0;
     
     /// 月
-    var month: Int = 0;
+    public var month: Int = 0;
     
-    var days: [Solar] {
+    public var days: [Solar] {
         get {
             var l: [Solar] = [];
             let d: Solar = Solar(fromYmd: year, month: month, day: 1)
@@ -29,12 +30,12 @@ struct SolarMonth {
         }
     }
     
-    init(year: Int, month: Int) {
+    public init(year: Int, month: Int) {
         self.year = year
         self.month = month
     }
     
-    init(date: Date = Date()) {
+    public init(date: Date = Date()) {
         year = date.get(.year)
         month = date.get(.month)
     }
@@ -67,7 +68,7 @@ struct SolarMonth {
     //    return l;
     //  }
     
-    func next(quantity: Int) -> SolarMonth {
+    public func next(quantity: Int) -> SolarMonth {
         if (0 == quantity) {
             return SolarMonth(year: year, month: month);
         } else {
@@ -88,11 +89,11 @@ struct SolarMonth {
     }
     
     
-    func toString() -> String {
+    public func toString() -> String {
         return "\(year)-\(month)"
     }
     
-    func toFullString() -> String {
+    public func toFullString() -> String {
         return "\(year)年\(month)月"
     }
 }

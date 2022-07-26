@@ -8,30 +8,31 @@
 
 import Foundation
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct Yun {
+public struct Yun {
     // 性别(1男，0女)
-    var gender: Int = 0
+    public var gender: Int = 0
     
     // 起运年数
-    var startYear: Int = 0
+    public var startYear: Int = 0
     
     // 起运月数
-    var startMonth: Int = 0
+    public var startMonth: Int = 0
     
     // 起运天数
-    var startDay: Int = 0
+    public var startDay: Int = 0
     
     // 起运小时数
-    var startHour: Int = 0
+    public var startHour: Int = 0
     
     // 是否顺推
-    var isGoWith: Bool = false
+    public var isGoWith: Bool = false
     
-    var genre: Int = 1
+    public var genre: Int = 1
     
     // 阴历
-    var lunar: Lunar? {
+    public var lunar: Lunar? {
         didSet {
             let yang = 0 == (lunar?.getYearGanIndexExact())! % 2
             let man = 1 == gender
@@ -40,7 +41,7 @@ struct Yun {
         }
     }
     
-    init(lunar: Lunar, gender: Int, genre: Int = 1) {
+    public init(lunar: Lunar, gender: Int, genre: Int = 1) {
         self.lunar = lunar
         self.gender = gender
         // 阳
@@ -118,7 +119,7 @@ struct Yun {
     
     //  Lunar getLunar() => _lunar!
     
-    func getStartSolar() -> Solar {
+    public func getStartSolar() -> Solar {
         let birth: Solar = lunar!.solar!
         var year: Int = birth.year + startYear
         var month: Int = birth.month + startMonth
@@ -145,13 +146,13 @@ struct Yun {
     }
     
     /// 获取10轮大运
-        func getDaYun() -> [DaYun]{
+    public func getDaYun() -> [DaYun]{
             return getDaYunBy(n: 10)
         }
     
     /// 获取大运
     /// [n] 轮数
-        func getDaYunBy(n: Int) -> [DaYun]{
+    public func getDaYunBy(n: Int) -> [DaYun]{
             var l: [DaYun] = []
             for i in 0..<n {
                 l.append(DaYun(yun: self, index: i))

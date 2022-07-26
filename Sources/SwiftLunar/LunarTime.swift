@@ -9,45 +9,46 @@ import Foundation
 
 // 阴历时辰
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct LunarTime {
+public struct LunarTime {
     /// 天干下标，0-9
-    var ganIndex: Int = 0
+    public var ganIndex: Int = 0
     
     /// 地支下标，0-11
-    var zhiIndex: Int = 0
+    public var zhiIndex: Int = 0
     
     /// 阴历
-    var lunar: Lunar?
+    public var lunar: Lunar?
     
-    init(fromYmdHmd lunarYear: Int, lunarMonth: Int, lunarDay: Int, hour: Int, minute: Int, second: Int) {
+    public init(fromYmdHmd lunarYear: Int, lunarMonth: Int, lunarDay: Int, hour: Int, minute: Int, second: Int) {
         self.lunar = Lunar(fromYmdHms: lunarYear, lunarMonth: lunarMonth, lunarDay: lunarDay, hour: hour, minute: minute, second: second)
         self.zhiIndex = LunarUtil.getTimeZhiIndex(hm: "\(hour < 10 ? "0" : "")\(hour):\(minute < 10 ? "0" : "")\(minute)")
         self.ganIndex = (lunar!.getDayGanIndexExact() % 5 * 2 + zhiIndex) % 10
         
     }
     
-    func getGanIndex() -> Int {
+    public func getGanIndex() -> Int {
         return ganIndex
     }
     
-    func getZhiIndex() -> Int {
+    public func getZhiIndex() -> Int {
         return zhiIndex
     }
     
-    func getShengXiao() -> String {
+    public func getShengXiao() -> String {
         return LunarUtil.SHENGXIAO[zhiIndex + 1]
     }
 
-    func getGan() -> String {
+    public func getGan() -> String {
         return LunarUtil.GAN[ganIndex + 1]
     }
 
-    func getZhi() -> String {
+    public func getZhi() -> String {
         return LunarUtil.ZHI[zhiIndex + 1]
     }
 
-    func getGanZhi() -> String {
+    public func getGanZhi() -> String {
         return "\(getGan())\(getZhi())"
     }
 
@@ -111,7 +112,7 @@ struct LunarTime {
         return LunarUtil.TIAN_SHEN_TYPE_LUCK[getTianShenType()]!
     }
 
-    func getChong() -> String {
+    public func getChong() -> String {
         return LunarUtil.CHONG[zhiIndex]
     }
 
@@ -133,7 +134,7 @@ struct LunarTime {
         "(\(getChongGan())\(getChong()))\(getChongShengXiao())"
     }
 
-    func getChongGan() -> String {
+    public func getChongGan() -> String {
         return LunarUtil.CHONG_GAN[ganIndex]
     }
 
@@ -180,11 +181,11 @@ struct LunarTime {
         return getGanZhi()
     }
 
-    func getXun() -> String {
+    public func getXun() -> String {
         return LunarUtil.getXun(ganZhi: getGanZhi())
     }
 
-    func getXunKong() -> String {
+    public func getXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getGanZhi())
     }
 

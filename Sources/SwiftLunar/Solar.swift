@@ -9,27 +9,28 @@ import Foundation
 
 // 阳历日期
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct Solar {
+public struct Solar {
     static let J2000: Double = 2451545
     
-    var year: Int = 0
+    public var year: Int = 0
     
-    var month: Int = 0
+    public var month: Int = 0
     
-    var day: Int = 0
+    public var day: Int = 0
     
-    var hour: Int = 0
+    public var hour: Int = 0
     
-    var minute: Int = 0
+    public var minute: Int = 0
     
-    var second:Int = 0
+    public var second:Int = 0
     
-    var isLeapYear: Bool {
+    public var isLeapYear: Bool {
         return SolarUtil.isLeapYear(year: self.year)
     }
     
-    var calendar: Date {
+    public var calendar: Date {
         get {
 //            let dc = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day, hour: hour, minute: minute, second: second)
             return ExactDate.fromYmdHms(year: year, month: month, day: day, hour: hour, minute: minute, second: second)
@@ -46,7 +47,7 @@ struct Solar {
         }
     }
     
-    var julianDay: Double {
+    public var julianDay: Double {
         get {
             var y: Int = year
             var m: Int = month
@@ -121,13 +122,13 @@ struct Solar {
         }
     }
     
-    init(fromYmd year: Int, month: Int, day: Int) {
+    public init(fromYmd year: Int, month: Int, day: Int) {
         self.year = year
         self.month = month
         self.day = calcDay(day: day)
     }
     
-    init(fromYmdHms year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) {
+    public init(fromYmdHms year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) {
         self.year = year
         self.month = month
         self.day = calcDay(day: day)
@@ -136,16 +137,16 @@ struct Solar {
         self.second = second
     }
     
-    init() {
+    public init() {
         let date: Date = Date()
         self.calendar = date
     }
 
-    init(fromDate date: Date) {
+    public init(fromDate date: Date) {
         self.calendar = date
     }
     
-    init(fromJulianDay julianDay: Double) {
+    public init(fromJulianDay julianDay: Double) {
         self.julianDay = julianDay
     }
     
@@ -306,7 +307,7 @@ struct Solar {
     
     //   获取星期，0代表周日，1代表周一
     //   @return 0123456
-    var week: Int {
+    public var week: Int {
         var w: Int = Calendar(identifier: .gregorian).component(.weekday, from: calendar) - 1
         if (w == -1) {
             w = 0
@@ -316,13 +317,13 @@ struct Solar {
     
     //   获取星期的中文
     //   @return 日一二三四五六
-    var weekInChinese: String {
+    public  var weekInChinese: String {
         return SolarUtil.WEEK[week]
     }
     
     /// 获取星座
     /// @return 星座
-    var constellation: String {
+    public var constellation: String {
         var index: Int = 11
         let y: Int = month * 100 + day
         if (y >= 321 && y <= 419) {
@@ -379,7 +380,7 @@ struct Solar {
     
     /// 获取节日，有可能一天会有多个节日
     /// @return 劳动节等
-    var festivals: [String] {
+    public var festivals: [String] {
         var l: [String] = []
         //获取几月几日对应的节日
         var f: String? = SolarUtil.FESTIVAL["\(month)-\(day)"]
@@ -415,7 +416,7 @@ struct Solar {
     }
     /// 获取非正式的节日，有可能一天会有多个节日
     /// @return 非正式的节日列表，如中元节
-    var otherFestivals: [String] {
+    public var otherFestivals: [String] {
         var l: [String] = []
         let fs: [String]? = SolarUtil.OTHER_FESTIVAL["\(month)-\(day)"]
         if (nil != fs) {
@@ -428,7 +429,7 @@ struct Solar {
     /// @param days 天数
     /// @param onlyWorkday 是否仅限工作日
     /// @return 阳历日期
-    func next(days:Int, onlyWorkday: Bool = false) -> Solar {
+    public func next(days:Int, onlyWorkday: Bool = false) -> Solar {
         var c: Date = calendar
         let timeInterval: TimeInterval =  Double(days * 86400)
         if (0 != days) {
@@ -504,7 +505,7 @@ struct Solar {
         return s
     }
     
-    func getLunar() -> Lunar {
+    public func getLunar() -> Lunar {
         return Lunar(fromDate: calendar)
     }
 }

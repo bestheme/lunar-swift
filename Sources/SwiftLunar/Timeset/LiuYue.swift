@@ -6,19 +6,20 @@
 //
 // running months
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct LiuYue {
+public struct LiuYue {
     /// 序数，0-9
-    var index: Int;
+    public var index: Int;
     
     /// 流年
-    var liuNian: LiuNian;
+    public var liuNian: LiuNian;
     
-    func getMonthInChinese() -> String {
+    public func getMonthInChinese() -> String {
         return LunarUtil.MONTH[index + 1]
     }
     
-    func getGanZhi() -> String {
+    public func getGanZhi() -> String {
         var offset: Int = 0;
         let yearGan: String = String(liuNian.getGanZhi().prefix(1));
         if ("甲" == yearGan || "己" == yearGan) {
@@ -35,11 +36,11 @@ struct LiuYue {
         return gan + zhi;
     }
     
-    func getXun() -> String {
+    public func getXun() -> String {
         return LunarUtil.getXun(ganZhi: getGanZhi())
     }
-
-    func getXunKong() -> String {
+    
+    public func getXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getGanZhi())
     }
 }

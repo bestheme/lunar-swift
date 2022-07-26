@@ -7,13 +7,14 @@
 
 import Foundation
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct LunarYear {
+public struct LunarYear {
     /// 元
-    static let YUAN: [String] = ["下", "上", "中"]
+    public static let YUAN: [String] = ["下", "上", "中"]
     
     /// 运
-    static let YUN: [String] = ["七", "八", "九", "一", "二", "三", "四", "五", "六"]
+    public static let YUN: [String] = ["七", "八", "九", "一", "二", "三", "四", "五", "六"]
     
     /// 闰冬月年份
     static let LEAP_11: [Int] = [
@@ -405,7 +406,7 @@ struct LunarYear {
     static var cache: [Int: LunarYear] = [:]
     
     /// 农历年
-    var year: Int = 0
+    public var year: Int = 0
     
     /// 天干下标
     var ganIndex: Int = 0
@@ -414,7 +415,7 @@ struct LunarYear {
     var zhiIndex: Int = 0
     
     /// 农历月们
-    var months: [LunarMonth] = []
+    public var months: [LunarMonth] = []
     
     /// 节气儒略日们
     var jieQiJulianDays: [Double] = []
@@ -435,7 +436,7 @@ struct LunarYear {
 //        }
 //    }
     
-    init(lunarYear: Int) {
+    public init(lunarYear: Int) {
         if (LunarYear.leap.isEmpty) {
             for y in LunarYear.LEAP_11 {
                 LunarYear.leap[y] = 13
@@ -459,7 +460,7 @@ struct LunarYear {
         compute()
     }
     
-    static func fromYear(lunarYear: Int) -> LunarYear {
+    public static func fromYear(lunarYear: Int) -> LunarYear {
         var obj: LunarYear? = cache[lunarYear]
         if (nil == obj) {
             obj = LunarYear(lunarYear: lunarYear)
@@ -563,27 +564,27 @@ struct LunarYear {
 //        return zhiIndex
 //    }
     
-    func getGan() -> String {
+    public func getGan() -> String {
         return LunarUtil.GAN[ganIndex + 1]
     }
     
-    func getZhi() -> String {
+    public func getZhi() -> String {
         return LunarUtil.ZHI[zhiIndex + 1]
     }
     
-    func getGanZhi() -> String {
+    public func getGanZhi() -> String {
         return "\(getGan())\(getZhi())"
     }
     
-    func getMonths() -> [LunarMonth] {
+    public func getMonths() -> [LunarMonth] {
         return months
     }
     
-    func getJieQiJulianDays() -> [Double] {
+    public func getJieQiJulianDays() -> [Double] {
         return jieQiJulianDays
     }
     
-    func getMonth(lunarMonth: Int) -> LunarMonth? {
+    public func getMonth(lunarMonth: Int) -> LunarMonth? {
         for m in months {
             if (m.year == year && m.month == lunarMonth) {
                 return m
@@ -592,7 +593,7 @@ struct LunarYear {
         return nil
     }
     
-    func getLeapMonth() -> Int {
+    public func getLeapMonth() -> Int {
         for m in months {
             if (m.getYear() == year && m.isLeap()) {
                 return abs(m.getMonth())
@@ -601,15 +602,15 @@ struct LunarYear {
         return 0
     }
     
-    func toString() -> String {
+    public func toString() -> String {
         return "\(year)"
     }
     
-    func toFullString() -> String{
+    public func toFullString() -> String{
         return "\(year)年"
     }
     
-    func getZaoByGan(index: Int, name: String) -> String {
+    public func getZaoByGan(index: Int, name: String) -> String {
         let zao: String = name
         var offset: Int = index - Solar(fromJulianDay: getMonth(lunarMonth: 1)!.getFirstJulianDay()).getLunar().getDayGanIndex()
         if (offset < 0) {
@@ -619,7 +620,7 @@ struct LunarYear {
         return zao.replacingOccurrences(of: "几", with: LunarUtil.NUMBER[offset + 1])
     }
     
-    func getZaoByZhi(index: Int, name: String) -> String {
+    public func getZaoByZhi(index: Int, name: String) -> String {
         var offset: Int = index - Solar(fromJulianDay: getMonth(lunarMonth: 1)!.getFirstJulianDay()).getLunar().getDayZhiIndex()
         if (offset < 0) {
             offset += 12
@@ -683,11 +684,11 @@ struct LunarYear {
         return getZaoByGan(index: 3, name: getZaoByZhi(index: 2, name: "几人几锄"))
     }
     
-    func getYuan() -> String {
+    public func getYuan() -> String {
         return LunarYear.YUAN[Int((year + 2696) / 60) % 3] + "元"
     }
     
-    func getYun() -> String {
+    public func getYun() -> String {
         return LunarYear.YUN[Int((year + 2696) / 20) % 9] + "运"
     }
     
@@ -755,7 +756,7 @@ struct LunarYear {
     }
     
     
-    func next(n: Int) -> LunarYear {
+    public func next(n: Int) -> LunarYear {
         return LunarYear.fromYear(lunarYear: year + n)
     }
 }

@@ -9,21 +9,22 @@ import Foundation
 
 // 农历月
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct LunarMonth {
+public struct LunarMonth {
     /// 农历年
-    var year: Int = 0
+    public var year: Int = 0
     
     /// 农历月：1-12，闰月为负数，如闰2月为-2
-    var month: Int = 0
+    public var month: Int = 0
     
     /// 天数，大月30天，小月29天
-    var dayCount: Int = 0
+    public var dayCount: Int = 0
     
     /// 初一的儒略日
-    var firstJulianDay: Double = 0
+    public var firstJulianDay: Double = 0
     
-    init(year: Int, month: Int, dayCount: Int, firstJulianDay: Double) {
+    public init(year: Int, month: Int, dayCount: Int, firstJulianDay: Double) {
         self.year = year
         self.month = month
         self.dayCount = dayCount
@@ -35,23 +36,23 @@ struct LunarMonth {
         return LunarYear.fromYear(lunarYear: lunarYear).getMonth(lunarMonth: lunarMonth)
     }
     
-    func getYear() -> Int {
+    public func getYear() -> Int {
         return year
     }
     
-    func getMonth() -> Int {
+    public func getMonth() -> Int {
         return month
     }
     
-    func getDayCount() -> Int {
+    public func getDayCount() -> Int {
         return dayCount
     }
     
-    func getFirstJulianDay() -> Double {
+    public func getFirstJulianDay() -> Double {
         return  firstJulianDay
     }
     
-    func isLeap() -> Bool {
+    public func isLeap() -> Bool {
         return month < 0
     }
     

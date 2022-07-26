@@ -9,21 +9,22 @@ import Foundation
 
 // 阳历周
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
-struct SolarWeek {
+public struct SolarWeek {
     
     private static let durationOfDay: Int = 86400
     /// 年
-    var year: Int = 0
+    public var year: Int = 0
     
     /// 月
-    var month: Int = 0
+    public var month: Int = 0
     
     /// 日
-    var day: Int = 0
+    public var day: Int = 0
     
     /// 星期几作为一周的开始，1234560分别代表星期一至星期天
-    var start: Int = 0
+    public var start: Int = 0
     
     var index: Int {
         get {
@@ -40,21 +41,21 @@ struct SolarWeek {
         }
     }
     
-    init(year: Int, month: Int, day: Int, start: Int) {
+    public init(year: Int, month: Int, day: Int, start: Int) {
         self.year = year
         self.month = month
         self.day = day
         self.start = start
     }
 
-    init(date: Date = Date(), start: Int = 0) {
+    public init(date: Date = Date(), start: Int = 0) {
         self.year = date.get(.year)
         self.month = date.get(.month)
         self.day = date.get(.day)
         self.start = start
     }
 
-    func next(weeks: Int, separateMonth: Bool) -> SolarWeek {
+    public func next(weeks: Int, separateMonth: Bool) -> SolarWeek {
     if (0 == weeks) {
       return SolarWeek(year: year, month: month, day: day, start: start)
     }
@@ -106,7 +107,7 @@ struct SolarWeek {
     }
   }
 
-  func getFirstDay() -> Solar {
+    public func getFirstDay() -> Solar {
       var c: Date = ExactDate.fromYmd(year: year, month: month, day: day);
       var week: Int = c.get(.weekday) - 1
     if (week == -1) {
@@ -120,7 +121,7 @@ struct SolarWeek {
       return Solar(fromDate: c)
   }
 
-  func getFirstDayInMonth() -> Solar? {
+    public func getFirstDayInMonth() -> Solar? {
       let days: [Solar] = getDays()
     for day in days  {
         if (month == day.month) {
@@ -130,7 +131,7 @@ struct SolarWeek {
     return nil;
   }
 
-  func getDays() -> [Solar] {
+    public func getDays() -> [Solar] {
       let firstDay: Solar = getFirstDay()
       var l: [Solar] = [];
     l.append(firstDay);
@@ -140,7 +141,7 @@ struct SolarWeek {
     return l
   }
 
-  func getDaysInMonth() -> [Solar] {
+    public func getDaysInMonth() -> [Solar] {
       let days: [Solar] = self.getDays()
       var l: [Solar] = []
     for day in days {

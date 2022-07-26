@@ -6,6 +6,7 @@
 //
 import Foundation
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct SolarSeason {
     /// 一季度的月数

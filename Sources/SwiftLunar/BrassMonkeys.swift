@@ -7,18 +7,18 @@
 // 数九
 // Brass Monkeys
 
-struct BrassMonkeys {
-  /// 名称，如一九、二九
-    var name: String;
-
-  /// 当前数九第几天，1-9
-    var index: Int = 1;
-
-  func toString() -> String{
-    return "\(name)"
-  }
-
-  func toFullString() -> String {
-    return "\(name)第\(index)天"
-  }
+public struct BrassMonkeys {
+    /// 名称，如一九、二九
+    public var name: String;
+    
+    /// 当前数九第几天，1-9
+    public var index: Int = 1;
+    
+    public func toString() -> String{
+        return "\(name)"
+    }
+    
+    public func toFullString() -> String {
+        return "\(name)第\(index)天"
+    }
 }
