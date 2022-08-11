@@ -6,7 +6,7 @@
 //
 import Foundation
 // 阳历年
-
+@available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct SolarYear {

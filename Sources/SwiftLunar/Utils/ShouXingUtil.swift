@@ -10,6 +10,8 @@ import Foundation
 /// 寿星天文历工具
 /// http://www.nongli.net/sxwnl/
 /// @author 6tail
+
+@available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct ShouXingUtil {

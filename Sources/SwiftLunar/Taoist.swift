@@ -4,6 +4,7 @@
 //
 //  Created by 睿宁 on 2022/7/23.
 //
+@available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
 struct Taoist {

@@ -4,8 +4,9 @@
 //
 //  Created by 睿宁 on 2022/7/19.
 //
-/// Episode
+// Episode
 
+@available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
 public struct DaYun {
