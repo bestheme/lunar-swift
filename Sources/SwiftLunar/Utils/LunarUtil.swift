@@ -6,7 +6,7 @@
 //
 // 阴历工具
 
-struct LunarUtil {
+public struct LunarUtil {
   /// 月份地支偏移量，因正月起寅
     static let BASE_MONTH_ZHI_INDEX: Int = 2
 
@@ -1392,7 +1392,7 @@ struct LunarUtil {
   ]
 
   /// 天干五行
-    static let WU_XING_GAN: [String: String] = [
+  public static let WU_XING_GAN: [String: String] = [
     "甲": "木",
     "乙": "木",
     "丙": "火",
@@ -1406,7 +1406,7 @@ struct LunarUtil {
   ]
 
   /// 地支五行
-    static let WU_XING_ZHI: [String: String] = [
+  public static let WU_XING_ZHI: [String: String] = [
     "寅": "木",
     "卯": "木",
     "巳": "火",
