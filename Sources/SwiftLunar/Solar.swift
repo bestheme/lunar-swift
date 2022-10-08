@@ -461,7 +461,7 @@ public struct Solar {
         return Solar(fromDate: c)
     }
     
-    func toYmd() -> String {
+    public func toYmd() -> String {
         var d: Int = day
         if (year == 1582 && month == 10) {
             if (d >= 5) {
@@ -478,14 +478,14 @@ public struct Solar {
         //        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_HK")).year(.defaultDigits).month(.twoDigits).day(.twoDigits))
     }
     
-    func toYmdHms() -> String {
+    public func toYmdHms() -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormat.string(from: calendar)
         //        return calendar.formatted(.dateTime.locale(Locale(identifier: "zh_CN")).year(.defaultDigits).month(.twoDigits).day(.twoDigits).hour(.twoDigits(amPM: .narrow)).minute(.twoDigits).second(.twoDigits))
     }
     
-    func toHm() -> String {
+    public func toHm() -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "HH:mm"
         return dateFormat.string(from: calendar)
