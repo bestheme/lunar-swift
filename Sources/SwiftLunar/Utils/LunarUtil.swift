@@ -332,7 +332,7 @@ public struct LunarUtil {
     ];
     
     /// 地支
-    static let ZHI: [String] = [
+    public static let ZHI: [String] = [
         "",
         "子",
         "丑",
