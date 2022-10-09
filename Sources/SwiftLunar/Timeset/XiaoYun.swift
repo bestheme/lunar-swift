@@ -42,6 +42,9 @@ public struct XiaoYun {
         self.daYun = daYun
         self.index = index
         self.isGoWith = isGoWith
+        self.year = daYun.startYear + index
+        self.age = daYun.startAge + index
+        self.lunar = daYun.lunar
     }
     
     //  XiaoYun(DaYun daYun, int index, bool forward) {

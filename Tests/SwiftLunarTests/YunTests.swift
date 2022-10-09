@@ -67,4 +67,14 @@ final class YunTests: XCTestCase {
         let yun: Yun = timeset.getYun(gender: 0, genre: 2)
         XCTAssertEqual(yun.getStartSolar().toYmd(), "2020-03-21")
       }
+    
+    func testDaYun() throws {
+        let solar: Solar = Solar(fromYmdHms: 1980, month: 12, day: 4, hour: 7, minute: 30, second: 0)
+        let lunar: Lunar = solar.getLunar()
+        let timeset: Timeset = lunar.getTimeset()
+        let yun: Yun = timeset.getYun(gender: 1, genre: 1)
+        let episodes: [DaYun] = yun.getDaYun()
+        let runningYear: [LiuNian] = episodes[5].getLiuNian()
+        XCTAssertEqual(episodes[5].startYear, 2021)
+    }
 }

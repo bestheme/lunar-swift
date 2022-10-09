@@ -42,6 +42,7 @@ public struct DaYun {
     public init(yun: Yun, index: Int) {
         self.yun = yun
         self.index = index
+        calcProperties(yun: yun, index: index)
     }
     
     mutating func calcProperties(yun: Yun, index: Int) {

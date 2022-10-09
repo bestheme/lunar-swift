@@ -34,22 +34,25 @@ public struct LiuNian {
     
     /// 阴历
     public var lunar: Lunar?
-
+    
     public init(daYun: DaYun, index: Int) {
-      self.daYun = daYun
-      self.index = index
-  }
-
+        self.daYun = daYun
+        self.index = index
+        self.lunar = daYun.lunar
+        self.year = daYun.startYear + index
+        self.age = daYun.startAge + index
+    }
+    
     public func getMonthInChinese() -> String {
         return LunarUtil.MONTH[index + 1]
     }
-
-//  int getIndex() => _index;
-//
-//  int getYear() => _year;
-//
-//  int getAge() => _age;
-
+    
+    //  int getIndex() => _index;
+    //
+    //  int getYear() => _year;
+    //
+    //  int getAge() => _age;
+    
     public func getGanZhi() -> String {
         // 干支与出生日期和起运日期都没关系
         var offset: Int = LunarUtil.getJiaZiIndex(ganZhi: lunar!.getJieQiTable()["立春"]!.getLunar().getYearInGanZhiExact()) + index;
@@ -59,15 +62,15 @@ public struct LiuNian {
         offset %= LunarUtil.JIA_ZI.count;
         return LunarUtil.JIA_ZI[offset];
     }
-
+    
     public func getXun() -> String {
         return LunarUtil.getXun(ganZhi: getGanZhi())
     }
-
+    
     public func getXunKong() -> String {
         return LunarUtil.getXunKong(ganZhi: getGanZhi())
     }
-
+    
     public func getLiuYue() -> [LiuYue] {
         let n: Int = 12
         var l: [LiuYue] = []
