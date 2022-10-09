@@ -94,6 +94,26 @@ final class TimesetTests: XCTestCase {
         XCTAssertEqual(timeset.getTimeShiShenZhi(), ["正印","偏财","食神"])
     }
     
+    func testTimeset7Short() throws {
+        let solar: Solar = Solar(fromYmdHms: 2005, month: 12, day: 23, hour: 8, minute: 37, second: 0)
+        let lunar: Lunar = solar.getLunar()
+        let timeset: Timeset = lunar.getTimeset()
+        XCTAssertEqual(timeset.getYearShiShenGan(isShort: true), "才")
+        XCTAssertEqual(timeset.getMonthShiShenGan(isShort: true), "印")
+        XCTAssertEqual(timeset.getDayShiShenGan(), "日元")
+        XCTAssertEqual(timeset.getTimeShiShenGan(isShort: true), "伤")
+    }
+    
+    func testTimeset8Short() throws {
+        let solar: Solar = Solar(fromYmdHms: 2005, month: 12, day: 23, hour: 8, minute: 37, second: 0)
+        let lunar: Lunar = solar.getLunar()
+        let timeset: Timeset = lunar.getTimeset()
+        XCTAssertEqual(timeset.getYearShiShenZhi(isShort: true), ["比"])
+        XCTAssertEqual(timeset.getMonthShiShenZhi(isShort: true), ["食"])
+        XCTAssertEqual(timeset.getDayShiShenZhi(isShort: true), ["官","劫","印"])
+        XCTAssertEqual(timeset.getTimeShiShenZhi(isShort: true), ["印","才","食"])
+    }
+    
     func testTimeset9() throws {
         let solar: Solar = Solar(fromYmdHms: 2005, month: 12, day: 23, hour: 8, minute: 37, second: 0)
         let lunar: Lunar = solar.getLunar()
