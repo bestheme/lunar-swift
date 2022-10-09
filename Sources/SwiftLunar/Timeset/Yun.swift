@@ -11,7 +11,7 @@ import Foundation
 @available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
-public struct Yun {
+public struct Yun: Hashable {
     // 性别(1男，0女)
     public var gender: Int = 0
     

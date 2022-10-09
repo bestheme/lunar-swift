@@ -12,7 +12,7 @@ import Foundation
 @available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
-public struct Solar {
+public struct Solar: Hashable {
     static let J2000: Double = 2451545
     
     public var year: Int = 0

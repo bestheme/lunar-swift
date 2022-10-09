@@ -9,7 +9,7 @@
 @available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
-public struct DaYun {
+public struct DaYun: Hashable {
     /// 开始年(含)
     public var startYear: Int = 0
     

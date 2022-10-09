@@ -4,7 +4,7 @@ import Foundation
 @available(watchOS 8.0, *)
 @available(iOS 15.0, *)
 @available(macOS 12.0, *)
-public struct Lunar {
+public struct Lunar: Hashable {
     static let JIE_QI_IN_USE: [String] = [
         "DA_XUE",
         "冬至",
