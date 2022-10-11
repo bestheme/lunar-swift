@@ -127,6 +127,13 @@ public struct Timeset {
         return l;
     }
     
+    public func getShiShenGan(stem: String, isShort: Bool) -> String {
+        if (isShort) {
+            return LunarUtil.SHI_SHEN_GAN_SHORT["\(getDayGan())\(stem)"]!
+        }
+        return LunarUtil.SHI_SHEN_GAN["\(getDayGan())\(stem)"]!
+    }
+    
     public func getYearShiShenZhi(isShort: Bool = false) -> [String] {
         return getShiShenZhi(zhi: getYearZhi(), isShort: isShort)
     }
