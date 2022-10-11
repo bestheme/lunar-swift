@@ -93,6 +93,16 @@ public struct DaYun: Hashable {
         return LunarUtil.JIA_ZI[offset];
     }
     
+    public func getGan() -> String {
+        let characters = Array(getGanZhi())
+        return String(characters[0])
+    }
+    
+    public func getZhi() -> String {
+        let characters = Array(getGanZhi())
+        return String(characters[1])
+    }
+    
     public func getXun() -> String {
         return LunarUtil.getXun(ganZhi: getGanZhi())
     }
