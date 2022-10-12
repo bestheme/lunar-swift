@@ -92,7 +92,7 @@ public struct JieQi {
     //  bool isQi() => _qi;
     
     public func toString() -> String {
-        return "\(String(describing: name))";
+        return String(describing: name)
     }
 }
 
