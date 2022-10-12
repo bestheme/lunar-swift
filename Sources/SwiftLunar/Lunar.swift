@@ -1234,7 +1234,7 @@ public struct Lunar: Hashable {
         return jieQi
     }
     
-    func getNextJie(wholeDay: Bool = false) -> JieQi {
+    public func getNextJie(wholeDay: Bool = false) -> JieQi {
         let l: Int = (Lunar.JIE_QI_IN_USE.count / 2)
         var conditions: [String] = []
         for i in 0..<l {
@@ -1243,7 +1243,7 @@ public struct Lunar: Hashable {
         return getNearJieQi(isGoWith: true, conditions: conditions, wholeDay: wholeDay)!
     }
     
-    func getPrevJie(wholeDay: Bool = false) -> JieQi {
+    public func getPrevJie(wholeDay: Bool = false) -> JieQi {
         let l: Int = Int(Lunar.JIE_QI_IN_USE.count / 2)
         var conditions: [String] = []
         for i in 0..<l {
@@ -1252,7 +1252,7 @@ public struct Lunar: Hashable {
         return getNearJieQi(isGoWith: false, conditions: conditions, wholeDay: wholeDay)!
     }
     
-    func getNextQi(wholeDay: Bool = false) -> JieQi {
+    public func getNextQi(wholeDay: Bool = false) -> JieQi {
         let l: Int = Int(floor(Double(Lunar.JIE_QI_IN_USE.count) / 2))
         var conditions: [String] = []
         for i in 0..<l {
@@ -1261,7 +1261,7 @@ public struct Lunar: Hashable {
         return getNearJieQi(isGoWith: true, conditions: conditions, wholeDay: wholeDay)!
     }
     
-    func getPrevQi(wholeDay: Bool = false) -> JieQi {
+    public func getPrevQi(wholeDay: Bool = false) -> JieQi {
         let l: Int = Int(floor(Double(Lunar.JIE_QI_IN_USE.count) / 2))
         var conditions: [String] = []
         for i in 0..<l {
@@ -1270,15 +1270,15 @@ public struct Lunar: Hashable {
         return getNearJieQi(isGoWith: false, conditions: conditions, wholeDay: wholeDay)!
     }
     
-    func getNextJieQi(bool wholeDay: Bool = false) -> JieQi {
+    public func getNextJieQi(bool wholeDay: Bool = false) -> JieQi {
         return getNearJieQi(isGoWith: true, conditions: nil, wholeDay: wholeDay)!
     }
     
-    func getPrevJieQi(wholeDay: Bool = false) -> JieQi {
+    public func getPrevJieQi(wholeDay: Bool = false) -> JieQi {
         return getNearJieQi(isGoWith: false, conditions: nil, wholeDay: wholeDay)!
     }
     
-    func getNearJieQi(isGoWith: Bool, conditions: [String]?, wholeDay: Bool) -> JieQi? {
+    public func getNearJieQi(isGoWith: Bool, conditions: [String]?, wholeDay: Bool) -> JieQi? {
         var name: String?
         var near: Solar?
         var filters: [String] = []
@@ -1332,7 +1332,7 @@ public struct Lunar: Hashable {
         return JieQi(name: name!, solar: near!)
     }
     
-    func getJieQi() -> String {
+    public func getJieQi() -> String {
         for  jq in jieQi {
             let d: Solar = jq.value
             if (d.year == solar!.year &&
@@ -1344,7 +1344,7 @@ public struct Lunar: Hashable {
         return ""
     }
     
-    var currentJieQi: JieQi? {
+    public var currentJieQi: JieQi? {
         get {
             for jq in jieQi {
                 let d: Solar = jq.value
