@@ -349,7 +349,7 @@ public struct LunarUtil {
     ];
     
     /// 六十甲子
-    static let JIA_ZI: [String] = [
+    public static let JIA_ZI: [String] = [
         "甲子",
         "乙丑",
         "丙寅",
