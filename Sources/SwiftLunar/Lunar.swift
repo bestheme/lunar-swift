@@ -366,7 +366,7 @@ public struct Lunar: Hashable {
         return "\(getYearGanByLiChun())\(getYearZhiByLiChun())"
     }
     
-    func getYearInGanZhiExact() -> String {
+    public func getYearInGanZhiExact() -> String {
         return "\(getYearGanExact())\(getYearZhiExact())"
     }
     
@@ -374,7 +374,7 @@ public struct Lunar: Hashable {
         return "\(getMonthGan())\(getMonthZhi())"
     }
     
-    func getMonthInGanZhiExact() -> String {
+    public func getMonthInGanZhiExact() -> String {
         return "\(getMonthGanExact())\(getMonthZhiExact())"
     }
     
@@ -398,11 +398,11 @@ public struct Lunar: Hashable {
         return "\(getDayGan())\(getDayZhi())"
     }
     
-    func getDayInGanZhiExact() -> String {
+    public func getDayInGanZhiExact() -> String {
         return "\(getDayGanExact())\(getDayZhiExact())"
     }
     
-    func getDayInGanZhiExact2() -> String {
+    public func getDayInGanZhiExact2() -> String {
         return "\(getDayGanExact2())\(getDayZhiExact2())"
     }
     
