@@ -2305,7 +2305,7 @@ public struct LunarUtil {
         return hex;
     }
     
-    static func getJiaZiIndex(ganZhi: String) -> Int {
+    public static func getJiaZiIndex(ganZhi: String) -> Int {
         for i in 0..<JIA_ZI.count {
             if (JIA_ZI[i] == ganZhi) {
                 return i;
