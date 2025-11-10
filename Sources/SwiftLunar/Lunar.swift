@@ -143,7 +143,10 @@ public struct Lunar: Hashable {
         self.hour = solar!.hour
         self.minute = solar!.minute
         self.second = solar!.second
-        compute(lunarYear: ly)
+//        compute(lunarYear: ly)
+       
+        computeJieQi(lunarYear: ly)
+        computeYear()
     }
     
     mutating func computeJieQi(lunarYear: LunarYear) { //Move to didset
@@ -1015,7 +1018,7 @@ public struct Lunar: Hashable {
     }
     
     func getDayJiShen() -> [String] {
-        return LunarUtil.getDayJiShen(lunarMonth: String(month), dayGanZhi: getDayInGanZhi())
+        return LunarUtil.getDayJiShen(lunarMonth: month, dayGanZhi: getDayInGanZhi())
     }
     
     func getDayXiongSha() -> [String] {

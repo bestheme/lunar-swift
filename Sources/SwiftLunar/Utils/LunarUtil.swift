@@ -824,7 +824,7 @@ public struct LunarUtil {
     ];
     
     /// 数字
-    static let NUMBER: [String] = [
+    public static let NUMBER: [String] = [
         "〇",
         "一",
         "二",
@@ -841,7 +841,7 @@ public struct LunarUtil {
     ];
     
     /// 月
-    static let MONTH: [String] = [
+    public static let MONTH: [String] = [
         "",
         "正",
         "二",
@@ -892,7 +892,7 @@ public struct LunarUtil {
     ];
     
     /// 日
-    static let DAY: [String] = [
+    public static let DAY: [String] = [
         "",
         "初一",
         "初二",
@@ -2314,101 +2314,100 @@ public struct LunarUtil {
         return -1;
     }
     
-    static func getDayYi(monthGanZhi: String, dayGanZhi: String) -> [String] {
+    public static func getDayYi(monthGanZhi: String, dayGanZhi: String) -> [String] {
         var l: [String] = []
-        //        var day: String = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
-        //        var month: String = hex(n: getJiaZiIndex(ganZhi: monthGanZhi))
-        //        var right: String = DAY_YI_JI;
-        //        var index: String.Index? = right.index(of: "\(day)=")
-        //        while (index! >= right.startIndex ) {
-        //        right = right[index!..<right.index(index!, offsetBy: 3)]
-        //        var left: String = right
-        //        if (left.contains("=")) {
-        //            left = left[left.startIndex..<left.index(left.index(of: "="), offsetBy: -2)]
-        //        }
-        //        var matched: Bool = false
-        //        var months: String = left[left.startIndex..<left.indexOf(":")]
-        //        for i in stride(from: 0, to: months.count, by: 2) {
-        //            var m: String = months[months.index(months.startIndex, offsetBy: i)..<months.index(months.startIndex, offsetBy: i + 2)];
-        //        if (m == month) {
-        //          matched = true;
-        //          break;
-        //        }
-        //      }
-        //      if (matched) {
-        //          var ys: String = left[left.index(left.index(of: ":"), offsetBy: 1)...]
-        //          if let endIndex = ys.firstIndex(of: ",") {
-        //              ys = ys.prefix(upTo: index)
-        //          }
-        //          for i in stride(from: 0, to: ys.count, by: 2) {
-        //              var m: String = ys[ys.index(ys.startIndex, offsetBy: i)..<ys.index(i, offsetBy: 2)]
-        //              l.append(YI_JI[Int(m, radix: 16)]);
-        //        }
-        //        break;
-        //      }
-        //        index = right.index(of: "\(day)=");
-        //    }
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let month = hex(n: getJiaZiIndex(ganZhi: monthGanZhi))
+        var right = DAY_YI_JI
+        var index = right.firstIndexOf(str: "\(day)=")
+        while index > -1 {
+            right = right.subString(beginIndex: index + 3)
+            
+            var left = right
+            if left.contains("=") {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 2)
+            }
+            var matched: Bool = false
+            let months = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: ":"))
+            for i in stride(from: 0, to: months.count, by: 2) {
+                let m = months.subString(beginIndex: i, endIndex: i + 2)
+                if m == month {
+                    matched = true
+                    break
+                }
+            }
+            if (matched) {
+                var ys = left.subString(beginIndex: left.firstIndexOf(str: ":") + 1)
+                ys = ys.subString(beginIndex: 0, endIndex: ys.firstIndexOf(str: ","))
+                for i in stride(from: 0, to: ys.count, by: 2) {
+                    let m = ys.subString(beginIndex: i, endIndex: i + 2)
+                    l.append(YI_JI[Int(m, radix: 16)!])
+                }
+                break;
+            }
+            index = right.firstIndexOf(str: "\(day)=")
+        }
         if (l.isEmpty) {
             l.append("无");
         }
         return l;
     }
     
-    static func getDayJi(monthGanZhi: String, dayGanZhi: String) -> [String] {
-        /// TO-DO
-        var l: [String] = [];
-        //    String day = hex(getJiaZiIndex(dayGanZhi));
-        //    String month = hex(getJiaZiIndex(monthGanZhi));
-        //    String right = DAY_YI_JI;
-        //    int index = right.indexOf(day + "=");
-        //    while (index > -1) {
-        //      right = right.substring(index + 3);
-        //      String left = right;
-        //      if (left.contains("=")) {
-        //        left = left.substring(0, left.indexOf("=") - 2);
-        //      }
-        //      bool matched = false;
-        //      String months = left.substring(0, left.indexOf(":"));
-        //      for (int i = 0, j = months.length; i < j; i += 2) {
-        //        String m = months.substring(i, i + 2);
-        //        if (m == month) {
-        //          matched = true;
-        //          break;
-        //        }
-        //      }
-        //      if (matched) {
-        //        String js = left.substring(left.indexOf(",") + 1);
-        //        for (int i = 0, j = js.length; i < j; i += 2) {
-        //          String m = js.substring(i, i + 2);
-        //          l.add(YI_JI[int.parse(m, radix: 16)]);
-        //        }
-        //        break;
-        //      }
-        //      index = right.indexOf(day + "=");
-        //    }
+    public static func getDayJi(monthGanZhi: String, dayGanZhi: String) -> [String] {
+        var l: [String] = []
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let month = hex(n: getJiaZiIndex(ganZhi: monthGanZhi))
+        var right = DAY_YI_JI
+        var index = right.firstIndexOf(str: "\(day)=")
+        while index > -1 {
+            right = right.subString(beginIndex: index + 3)
+            
+            var left = right
+            if left.contains("=") {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 2)
+            }
+            var matched: Bool = false
+            let months = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: ":"))
+            for i in stride(from: 0, to: months.count, by: 2) {
+                let m = months.subString(beginIndex: i, endIndex: i + 2)
+                if m == month {
+                    matched = true
+                    break
+                }
+            }
+            if (matched) {
+                let js = left.subString(beginIndex: left.firstIndexOf(str: ",") + 1)
+                //                ys = ys.subString(beginIndex: 0, endIndex: ys.firstIndexOf(str: ","))
+                for i in stride(from: 0, to: js.count, by: 2) {
+                    let m = js.subString(beginIndex: i, endIndex: i + 2)
+                    l.append(YI_JI[Int(m, radix: 16)!])
+                }
+                break;
+            }
+            index = right.firstIndexOf(str: "\(day)=")
+        }
         if (l.isEmpty) {
             l.append("无");
         }
         return l;
     }
     
-    static func getDayJiShen(lunarMonth: String, dayGanZhi: String) -> [String]{
+    static func getDayJiShen(lunarMonth: Int, dayGanZhi: String) -> [String]{
         var l: [String] = [];
-        //    String day = hex(getJiaZiIndex(dayGanZhi));
-        //    String month = ((lunarMonth).abs() & 0xFF).toRadixString(16).toUpperCase();
-        //    int index = DAY_SHEN_SHA.indexOf(month + day + "=");
-        //    if (index > -1) {
-        //      String left = DAY_SHEN_SHA.substring(index + 4);
-        //      if (left.contains("=")) {
-        //        left = left.substring(0, left.indexOf("=") - 3);
-        //      }
-        //      String js = left.substring(0, left.indexOf(","));
-        //      for (int i = 0, j = js.length; i < j; i += 2) {
-        //        String m = js.substring(i, i + 2);
-        //
-        //          l.append(SHEN_SHA[int.parse(m, radix: 16)]);
-        //      }
-        //    }
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let month = String(lunarMonth & 0xFF, radix: 16, uppercase: true)
+        var index = DAY_SHEN_SHA.firstIndexOf(str: month + day + "=")
+        if (index > -1) {
+            var left = DAY_SHEN_SHA.subString(beginIndex: index + 4)
+            if (left.contains("=")) {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 3)
+            }
+            let js = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: ","))
+            for i in stride(from: 0, to: js.count, by: 2){
+                let m = js.subString(beginIndex: i, endIndex: i + 2)
+                l.append(SHEN_SHA[Int(m, radix: 16)!]);
+            }
+        }
         if (l.isEmpty) {
             l.append("无");
         }
@@ -2417,20 +2416,20 @@ public struct LunarUtil {
     
     static func getDayXiongSha(lunarMonth: Int, dayGanZhi: String) -> [String]{
         var l: [String] = [];
-        //    String day = hex(getJiaZiIndex(dayGanZhi));
-        //    String month = ((lunarMonth).abs() & 0xFF).toRadixString(16).toUpperCase();
-        //    int index = DAY_SHEN_SHA.indexOf(month + day + "=");
-        //    if (index > -1) {
-        //      String left = DAY_SHEN_SHA.substring(index + 4);
-        //      if (left.contains("=")) {
-        //        left = left.substring(0, left.indexOf("=") - 3);
-        //      }
-        //      String xs = left.substring(left.indexOf(",") + 1);
-        //      for (int i = 0, j = xs.length; i < j; i += 2) {
-        //        String m = xs.substring(i, i + 2);
-        //        l.add(SHEN_SHA[int.parse(m, radix: 16)]);
-        //      }
-        //    }
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let month = String(lunarMonth & 0xFF, radix: 16, uppercase: true)
+        var index = DAY_SHEN_SHA.firstIndexOf(str: month + day + "=")
+        if (index > -1) {
+            var left = DAY_SHEN_SHA.subString(beginIndex: index + 4)
+            if (left.contains("=")) {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 3)
+            }
+            let xs = left.subString(beginIndex: left.firstIndexOf(str: ",") + 1)
+            for i in stride(from: 0, to: xs.count, by: 2){
+                let m = xs.subString(beginIndex: i, endIndex: i + 2)
+                l.append(SHEN_SHA[Int(m, radix: 16)!]);
+            }
+        }
         if (l.isEmpty) {
             l.append("无");
         }
@@ -2439,20 +2438,20 @@ public struct LunarUtil {
     
     static func getTimeYi(dayGanZhi: String, timeGanZhi: String) -> [String]{
         var l: [String] = [];
-        //    String day = hex(getJiaZiIndex(dayGanZhi));
-        //    String time = hex(getJiaZiIndex(timeGanZhi));
-        //    int index = TIME_YI_JI.indexOf(day + time + "=");
-        //    if (index > -1) {
-        //      String left = TIME_YI_JI.substring(index + 5);
-        //      if (left.contains("=")) {
-        //        left = left.substring(0, left.indexOf("=") - 4);
-        //      }
-        //      String ys = left.substring(0, left.indexOf(","));
-        //      for (int i = 0, j = ys.length; i < j; i += 2) {
-        //        String m = ys.substring(i, i + 2);
-        //        l.add(YI_JI[int.parse(m, radix: 16)]);
-        //      }
-        //    }
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let time = hex(n: getJiaZiIndex(ganZhi: timeGanZhi))
+        let index = TIME_YI_JI.firstIndexOf(str: day + time + "=");
+        if (index > -1) {
+            var left = TIME_YI_JI.subString(beginIndex: index + 5)
+            if (left.contains("=")) {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 4)
+            }
+            let ys = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: ","))
+            for i in stride(from: 0, to: ys.count, by: 2){
+                let m = ys.subString(beginIndex: i, endIndex: i + 2)
+                l.append(YI_JI[Int(m, radix: 16)!])
+            }
+        }
         if (l.isEmpty) {
             l.append("无");
         }
@@ -2461,20 +2460,20 @@ public struct LunarUtil {
     
     static func getTimeJi(dayGanZhi: String, timeGanZhi: String) -> [String]{
         var l: [String] = [];
-        //    String day = hex(getJiaZiIndex(dayGanZhi));
-        //    String time = hex(getJiaZiIndex(timeGanZhi));
-        //    int index = TIME_YI_JI.indexOf(day + time + "=");
-        //    if (index > -1) {
-        //      String left = TIME_YI_JI.substring(index + 5);
-        //      if (left.contains("=")) {
-        //        left = left.substring(0, left.indexOf("=") - 4);
-        //      }
-        //      String js = left.substring(left.indexOf(",") + 1);
-        //      for (int i = 0, j = js.length; i < j; i += 2) {
-        //        String m = js.substring(i, i + 2);
-        //        l.add(YI_JI[int.parse(m, radix: 16)]);
-        //      }
-        //    }
+        let day = hex(n: getJiaZiIndex(ganZhi: dayGanZhi))
+        let time = hex(n: getJiaZiIndex(ganZhi: timeGanZhi))
+        let index = TIME_YI_JI.firstIndexOf(str: day + time + "=");
+        if (index > -1) {
+            var left = TIME_YI_JI.subString(beginIndex: index + 5)
+            if (left.contains("=")) {
+                left = left.subString(beginIndex: 0, endIndex: left.firstIndexOf(str: "=") - 4)
+            }
+            let ys = left.subString(beginIndex: left.firstIndexOf(str: ",") + 1)
+            for i in stride(from: 0, to: ys.count, by: 2){
+                let m = ys.subString(beginIndex: i, endIndex: i + 2)
+                l.append(YI_JI[Int(m, radix: 16)!])
+            }
+        }
         if (l.isEmpty) {
             l.append("无");
         }
@@ -2511,5 +2510,51 @@ public struct LunarUtil {
     
     static func getXunKong(ganZhi: String) -> String {
         return XUN_KONG[getXunIndex(ganZhi: ganZhi)];
+    }
+}
+
+
+fileprivate extension String{
+    
+    func subString(beginIndex:Int) -> String
+    {
+        let index = self.index(self.startIndex, offsetBy: beginIndex)
+        return String(self[index..<self.endIndex])
+        //return String(prefix(upTo: index))
+        //return self.substring(from: self.index(self.startIndex, offsetBy: beginIndex))
+    }
+    
+    func subStringAt(indexOf:Int) -> String{
+        return self.subString(beginIndex: indexOf, endIndex: indexOf+1)
+    }
+    
+    func subString(beginIndex:Int,endIndex:Int) -> String
+    {
+        if endIndex > self.count {
+            return ""
+        }else{
+            
+            let startIndex = self.index(self.startIndex, offsetBy: beginIndex)
+            let endIndex = self.index(startIndex, offsetBy: endIndex - beginIndex)
+            return String(self[startIndex..<endIndex])
+            
+            //            return self.substring(with: Range<String.Index>(self.characters.index(self.startIndex, offsetBy: beginIndex) ..< self.characters.index(self.startIndex, offsetBy: endIndex)))
+        }
+    }
+    
+    func firstIndexOf(str:String) -> Int
+    {
+        print(str)
+        let cIndex = self.range(of: str)?.lowerBound
+        if cIndex == nil{
+            return -1
+        }
+        return self.distance(from: self.startIndex, to: cIndex!)
+    }
+    
+    func lastIndexOf(str:String) -> Int
+    {
+        let cIndex = self.range(of: str)?.upperBound
+        return self.distance(from: self.startIndex, to: cIndex!)
     }
 }

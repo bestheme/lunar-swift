@@ -8,10 +8,18 @@
 import XCTest
 @testable import SwiftLunar
 
+@available(iOS 15.0, *)
 @available(macOS 12.0, *)
 final class LunarYearTests: XCTestCase {
     func testLunarYearForFirst() throws {
         let year: LunarYear = LunarYear(lunarYear: 2021)
+        let lunar = Lunar(fromDate: Date())
+//        let dayYi = LunarUtil.getDayYi(monthGanZhi: "壬子", dayGanZhi: "庚申")
+//        let dayJi = LunarUtil.getDayJi(monthGanZhi: "壬子", dayGanZhi: "庚申")
+//        let dayJiShen = LunarUtil.getDayJiShen(lunarMonth: lunar.month, dayGanZhi: "庚申")
+//        let dayXiongShen = LunarUtil.getDayXiongSha(lunarMonth: lunar.month, dayGanZhi: "庚申")
+        let timeYi = LunarUtil.getTimeYi(dayGanZhi: "庚申", timeGanZhi: "癸未")
+        let timeJi = LunarUtil.getTimeJi(dayGanZhi: "庚申", timeGanZhi: "癸未")
         XCTAssertEqual(year.toString(), "2021")
     }
     
